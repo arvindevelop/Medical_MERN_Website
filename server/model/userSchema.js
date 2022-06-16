@@ -24,12 +24,13 @@ const userSchema = new mongoose.Schema({
     },
     password:{
         type: String,
-        required: true
+        //required: true
     },
     role:{
         type: String,
-        required: true,
-        uppercase: true
+        //required: true,
+        uppercase: true,
+        default: 'Customer'
     },
     creationDate:{
         type : Date,

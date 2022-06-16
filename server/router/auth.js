@@ -4,10 +4,12 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
-/*-------------under development---------------*/
+/*--------------------------------------------------under development---------------------------------------------------------------*/
+
 const passport = require('passport');
-const CLIENT_URL = "http://localhost:3000/";
-/*-------------under development end---------------*/
+const CLIENT_URL = "http://localhost:5000/";  //make it 3000 for client, right now it is ok, only for server
+
+/*--------------------------------------------------under development end-------------------------------------------------------------*/
 
 const User = require('../model/userSchema');
 dotenv.config({path:'../config.env'});
@@ -104,9 +106,10 @@ router.post('/v1/api/register', async (req,res) =>{
 })
 
 
-/*---------under development-------------*/
+/*-----------------------------------------------------------------under development-------------------------------------------------------*/
 
 // router.get("/login/success", (req, res) => {
+//     console.log('Success');
 //     if (req.user) {
 //       res.status(200).json({
 //         success: true,
@@ -115,6 +118,8 @@ router.post('/v1/api/register', async (req,res) =>{
 //         //   cookies: req.cookies
 //       });
 //     }
+//     else
+//         res.send("Did'n get user");
 //   });
 
 router.get("/login/failed", (req, res) => {
@@ -129,26 +134,26 @@ router.get("/logout", (req, res) => {
     res.redirect(CLIENT_URL);
   });
   
-  router.get("/google", passport.authenticate("google", { scope: ["profile"] }));
+router.get("/auth/google", passport.authenticate("google", { scope: ["profile","email"] }));
   
-  router.get(
-    "/google/callback",
+router.get(
+    "/auth/google/callback",
     passport.authenticate("google", {
       successRedirect: CLIENT_URL,
       failureRedirect: "/login/failed",
     })
-  );
+);
   
-//   router.get("/facebook", passport.authenticate("facebook", { scope: ["profile"] }));
+//   router.get("/auth/facebook", passport.authenticate("facebook", { scope: ["profile","email"] }));
   
 //   router.get(
-//     "/facebook/callback",
+//     "/auth/facebook/callback",
 //     passport.authenticate("facebook", {
 //       successRedirect: CLIENT_URL,
 //       failureRedirect: "/login/failed",
 //     })
 //   );
   
-/*----------under development end---------*/
+/*------------------------------------------------------------under development end-------------------------------------------------------*/
 
 module.exports = router;
