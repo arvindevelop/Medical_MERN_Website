@@ -24,13 +24,11 @@ const userSchema = new mongoose.Schema({
     },
     password:{
         type: String,
-        //required: true
+        required: true
     },
     role:{
         type: String,
-        //required: true,
-        uppercase: true,
-        default: 'Customer'
+        default: 'customer'
     },
     creationDate:{
         type : Date,
@@ -40,6 +38,9 @@ const userSchema = new mongoose.Schema({
         type : Date,
         default: Date.now
     },
+    shared: [{
+        type: String
+    }],
     tokens:[
         {
             token:{

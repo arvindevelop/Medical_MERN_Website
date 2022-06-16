@@ -20,12 +20,17 @@ passport.use(
     },
     async (accessToken, refreshToken, profile, done) => {
       console.log("authenticate");//st-1 and st-3
-
+      console.log(profile);
         const userExist = await User.findOne({email:profile.emails[0].value});
         if(!userExist){
+
+          // const token = await userExist.generateAuthToken();
+          // res.cookie("jwt",token);
+
           const user = new User({
             username: profile.displayName,
             email: profile.emails[0].value, 
+            // password: token
           });
           const userSave = await user.save();
         }

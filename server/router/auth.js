@@ -37,7 +37,7 @@ router.get('/secretpage', auth, (req,res) => {
     res.send(`secret`);
 })
 
-router.get('/v1/api/login',async (req,res) => {
+router.get('/api/v1/auth/login',async (req,res) => {
     try{
         const {email,password} = req.body;
 
@@ -74,7 +74,7 @@ router.get('/v1/api/login',async (req,res) => {
     }
 })
 
-router.post('/v1/api/register', async (req,res) =>{
+router.post('/api/v1/auth/register', async (req,res) =>{
 
     const {username,email,password,role} = req.body;
 
@@ -105,6 +105,20 @@ router.post('/v1/api/register', async (req,res) =>{
     }
 })
 
+router.get('/api/v1/auth/all', async (req,res) =>{
+
+    
+})
+
+router.delete('/api/v1/auth/del:{email}', async (req,res) =>{
+
+    
+})
+
+router.patch('/api/v1/auth/update:{email', async (req,res) =>{
+
+    
+})
 
 /*-----------------------------------------------------------------under development-------------------------------------------------------*/
 
