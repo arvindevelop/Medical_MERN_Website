@@ -2,6 +2,10 @@ const mongoose = require('mongoose');
 const validator = require('validator')
 
 const profileSchema = new mongoose.Schema({
+    id:{
+        type: String,
+        required: true
+    },
     email:{
         type: String,
         required: true,

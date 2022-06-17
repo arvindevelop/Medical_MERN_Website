@@ -33,6 +33,8 @@ require('./db/conn');
 app.use(express.json());
 app.use(cookieParser());
 app.use(require('./router/auth'));
+app.use(require('./router/profile'));
+app.use(require('./router/device'));
 
 const PORT = process.env.PORT;
 

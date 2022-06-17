@@ -42,7 +42,7 @@ router.get('/api/v1/auth/login',async (req,res) => {
         const {email,password} = req.body;
 
         if(!email || !password){
-            return res.status(422).json({status:422, error:"Please fill the data properly."});
+            return res.status(400).json({error:"invalid details"});
         }
 
         const userLogin = await User.findOne({email:email});
@@ -52,7 +52,7 @@ router.get('/api/v1/auth/login',async (req,res) => {
             const isMatch = await bcrypt.compare(password,userLogin.password);
 
             if(!isMatch){
-                res.status(401).json({status:401, error:"invalid credential"});
+                res.status(400).json({error:"invalid details"});
             }
             
             else{
@@ -63,14 +63,15 @@ router.get('/api/v1/auth/login',async (req,res) => {
                 //console.log(req.cookies.jwt);
                 
                 const updateLastLoggedData = await User.findByIdAndUpdate(userLogin._id,{'$set' : { 'lastLogged' : Date.now()} }, { new : true });
-                res.status(200).json({status:200, message:"signin successfully", userData:updateLastLoggedData});
+                res.status(200).json({status:"success", jwtToken:token});
             }
         }else{
-            res.status(401).json({status:401, error:"invalid credential"});
+            res.status(400).json({error:"invalid details"});
         }
         
     }catch(err){
         console.log(err);
+        res.status(500).json({error:"server error"});
     }
 })
 
@@ -79,14 +80,14 @@ router.post('/api/v1/auth/register', async (req,res) =>{
     const {username,email,password,role} = req.body;
 
     if(!username || !email || !password || !role){
-        return res.status(422).json({status:422, error: "plz fill the field properly"});
+        return res.status(400).json({error: "invalid details"});
     }
 
     try{
        const userExist = await User.findOne({email:email});
 
        if(userExist){
-            return res.status(400).json({status:400, error: "Email already exist"});
+            return res.status(400).json({error: "Email already exist"});
         }
         
         else{
@@ -96,28 +97,70 @@ router.post('/api/v1/auth/register', async (req,res) =>{
             const token = await user.generateAuthToken();
             res.cookie("jwt",token);
             
-            await user.save();
-            res.status(200).json({status:200, message:"user registered successfully"});
+            const savedUser = await user.save();
+            res.status(200).json({status:"success", userData:savedUser});
         }
     }
     catch(err){
         console.log(err);
+        res.status(500).json({error:"server error"});
     }
 })
 
 router.get('/api/v1/auth/all', async (req,res) =>{
 
-    
+    try {
+        const allUser = await User.find({});
+        res.status(200).json({status:"success", allUser:allUser});
+    } 
+    catch (err) {
+        console.log(err);
+        res.status(500).json({error:"server error"});
+    }    
 })
 
-router.delete('/api/v1/auth/del:{email}', async (req,res) =>{
+router.delete('/api/v1/auth/del/:email', async (req,res) =>{
 
-    
+    const userEmail = req.params.email;
+    try{
+        const userExist = await User.findOne({email:userEmail});
+ 
+        if(!userExist){
+             return res.status(400).json({error: "invalid detail"});
+         }
+         
+         else{
+             await User.deleteOne({email:userEmail});
+             res.status(200).json({message:"success"});
+         }
+     }
+     catch(err){
+         console.log(err);
+         res.status(500).json({status:500, error:"server error"});
+     }
+
 })
 
-router.patch('/api/v1/auth/update:{email', async (req,res) =>{
+router.patch('/api/v1/auth/update/:email', async (req,res) =>{
 
-    
+    const userEmail = req.params.email;
+    var {username, password} = req.body;
+    try{
+        const userExist = await User.findOne({email:userEmail});
+        if(!userExist){
+             return res.status(400).json({error: "invalid detail"});
+         }
+         
+         else{
+            password = bcrypt.hashSync(password, 12);
+            await User.updateOne({email:userEmail},{$set : { 'username' : username, 'password' : password}});
+            res.status(200).json({message:"success"});
+         }
+     }
+     catch(err){
+         console.log(err);
+         res.status(500).json({status:500, error:"server error"});
+     }
 })
 
 /*-----------------------------------------------------------------under development-------------------------------------------------------*/
