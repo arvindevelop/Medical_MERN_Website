@@ -1,9 +1,25 @@
+const dotenv = require('dotenv');
 const express = require('express');
 const router = express.Router();
+const jwt = require('jsonwebtoken');
 
 const Device = require('../model/deviceSchema');
+dotenv.config({path:'../config.env'});
 
-router.post('/api/v1/device/new', async (req,res) =>{
+const auth = async (req,res,next) => {
+
+    try {
+        const token = req.cookies.jwt;
+        jwt.verify(token, process.env.SECRET_KEY);
+        next();
+    } 
+    catch (error) {
+        console.log("error: " + error);
+        res.status(401).send("Please Register/Login");
+    }
+}
+
+router.post('/api/v1/device/new', auth, async (req,res) =>{
 
     const {email, deviceName,  deviceType, deviceId, deviceAddress} = req.body;
 
@@ -17,10 +33,8 @@ router.post('/api/v1/device/new', async (req,res) =>{
        if(deviceExist){
             return res.status(400).json({message: "Device already exist"});
         }
-        
         else{
             const device = new Device({email, deviceName,  deviceType, deviceId, deviceAddress});
-            
             const savedDevice = await device.save();
             res.status(200).json({status:"success", deviceData:savedDevice});
         }
@@ -29,10 +43,9 @@ router.post('/api/v1/device/new', async (req,res) =>{
         console.log(err);
         res.status(500).json({error:"server error"});
     }
-    
 })
 
-router.get('/api/v1/device/all', async (req,res) =>{
+router.get('/api/v1/device/all', auth, async (req,res) =>{
 
     try {
         const allDevice = await Device.find({});
@@ -44,7 +57,7 @@ router.get('/api/v1/device/all', async (req,res) =>{
     }    
 })
 
-router.delete('/api/v1/device/del/:deviceId', async (req,res) =>{
+router.delete('/api/v1/device/del/:deviceId', auth, async (req,res) =>{
 
     const deviceId = req.params.deviceId;
     try{
@@ -53,7 +66,6 @@ router.delete('/api/v1/device/del/:deviceId', async (req,res) =>{
         if(!deviceExist){
              return res.status(400).json({error: "invalid detail"});
          }
-         
          else{
              await Device.deleteOne({deviceId:deviceId});
              res.status(200).json({message:"success"});
@@ -63,10 +75,9 @@ router.delete('/api/v1/device/del/:deviceId', async (req,res) =>{
          console.log(err);
          res.status(500).json({status:500, error:"server error"});
      }
-    
 })
 
-router.patch('/api/v1/device/update/:deviceId', async (req,res) =>{
+router.patch('/api/v1/device/update/:deviceId', auth, async (req,res) =>{
 
     const deviceId = req.params.deviceId;
     var {deviceName, deviceAddress} = req.body;
@@ -75,7 +86,6 @@ router.patch('/api/v1/device/update/:deviceId', async (req,res) =>{
         if(!deviceExist){
              return res.status(400).json({error: "invalid detail"});
          }
-         
          else{
             await Device.updateOne({deviceId:deviceId},{$set : { 'deviceName' : deviceName, 'deviceAddress' : deviceAddress, 'lastUpdate' : Date.now()}});
             res.status(200).json({message:"success"});

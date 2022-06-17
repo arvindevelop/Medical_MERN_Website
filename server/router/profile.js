@@ -1,13 +1,29 @@
+const dotenv = require('dotenv');
 const express = require('express');
 const router = express.Router();
+const jwt = require('jsonwebtoken');
 
 const Profile = require('../model/profileSchema');
+dotenv.config({path:'../config.env'});
 
-router.post('/api/v1/profile/new', async (req,res) =>{
+const auth = async (req,res,next) => {
 
-    const {email, name, age, gender, weight} = req.body;
+    try {
+        const token = req.cookies.jwt;
+        jwt.verify(token, process.env.SECRET_KEY);
+        next();
+    } 
+    catch (error) {
+        console.log("error: " + error);
+        res.status(401).send("Please Register/Login");
+    }
+}
 
-    if(!email || !name || !age || !gender || !weight){
+router.post('/api/v1/profile/new', auth, async (req,res) =>{
+
+    const {id, email, name, age, gender, weight} = req.body;
+
+    if(!id || !email || !name || !age || !gender || !weight){
         return res.status(400).json({error: "invalid details"});
     }
 
@@ -17,10 +33,8 @@ router.post('/api/v1/profile/new', async (req,res) =>{
        if(profileExist){
             return res.status(400).json({message: "profile exist"});
         }
-        
         else{
-            const profile = new Profile({email, name, age, gender, weight});
-            
+            const profile = new Profile({id, email, name, age, gender, weight});
             const savedProfile = await profile.save();
             res.status(200).json({status:"success", profileData:savedProfile});
         }
@@ -29,10 +43,9 @@ router.post('/api/v1/profile/new', async (req,res) =>{
         console.log(err);
         res.status(500).json({error:"server error"});
     }
-    
 })
 
-router.get('/api/v1/profile/all', async (req,res) =>{
+router.get('/api/v1/profile/all', auth, async (req,res) =>{
 
     try {
         const allProfile = await Profile.find({});
@@ -44,7 +57,7 @@ router.get('/api/v1/profile/all', async (req,res) =>{
     }    
 })
 
-router.delete('/api/v1/profile/del/:name', async (req,res) =>{
+router.delete('/api/v1/profile/del/:name', auth, async (req,res) =>{
 
     const profileName = req.params.name;
     try{
@@ -53,7 +66,6 @@ router.delete('/api/v1/profile/del/:name', async (req,res) =>{
         if(!profileExist){
              return res.status(400).json({error: "invalid detail"});
          }
-         
          else{
              await Profile.deleteOne({name:profileName});
              res.status(200).json({message:"success"});
@@ -65,7 +77,7 @@ router.delete('/api/v1/profile/del/:name', async (req,res) =>{
      }
 })
 
-router.patch('/api/v1/profile/update/:name', async (req,res) =>{
+router.patch('/api/v1/profile/update/:name', auth, async (req,res) =>{
 
     const profileName = req.params.name;
     var {age, gender, weight} = req.body;
@@ -74,7 +86,6 @@ router.patch('/api/v1/profile/update/:name', async (req,res) =>{
         if(!profileExist){
              return res.status(400).json({error: "invalid detail"});
          }
-         
          else{
             await Profile.updateOne({name:profileName},{$set : { 'age' : age, 'gender' : gender, 'weight' : weight}});
             res.status(200).json({message:"success"});
