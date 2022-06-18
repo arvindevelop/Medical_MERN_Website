@@ -61,6 +61,9 @@ router.post('/api/v1/auth/register', async (req,res) =>{
         return res.status(400).json({error: "invalid details"});
     }
 
+    if(password.length < 8){
+        return res.status(400).json({error: "Password must be at least 8 chracters"});
+    }
     try{
 
        const userExist = await User.findOne({email:email});
@@ -122,6 +125,9 @@ router.patch('/api/v1/auth/update/:email', verify, async (req,res) =>{
 
     const userEmail = req.params.email;
     var {username, password} = req.body;
+    if(password.length < 8){
+        return res.status(400).json({error: "Password must be at least 8 chracters"});
+    }
     try{
         const userExist = await User.findOne({email:userEmail});
         if(!userExist){
