@@ -16,7 +16,7 @@ dotenv.config({path:'../config.env'});
 const verify = require('../middleware/verify');
 
 
-router.get('/api/v1/auth/login',async (req,res) => {
+router.post('/api/v1/auth/login',async (req,res) => {
 
     try{
         const {email,password} = req.body;
