@@ -43,6 +43,9 @@ app.get('/',(req,res) => {
     res.send(`At home`);
 })
 
+if(process.env.NODE_ENV == "production"){
+    app.use(express.static("client/build"));
+}
 
 app.listen(PORT, (err) => {
     if (err) console.log(err);

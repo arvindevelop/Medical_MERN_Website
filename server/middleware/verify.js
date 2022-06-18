@@ -5,7 +5,6 @@ dotenv.config({path:'../config.env'});
 const verify = async (req,res,next) => {
 
     try {
-        console.log("within verify");
         const token = req.cookies.jwt;
         const verifyUser = jwt.verify(token, process.env.SECRET_KEY);
         //const verifyUser = jwt.verify(token, "secret key");
