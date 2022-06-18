@@ -5,21 +5,10 @@ const jwt = require('jsonwebtoken');
 
 const Profile = require('../model/profileSchema');
 dotenv.config({path:'../config.env'});
+const verify = require('../middleware/verify');
 
-const auth = async (req,res,next) => {
 
-    try {
-        const token = req.cookies.jwt;
-        jwt.verify(token, process.env.SECRET_KEY);
-        next();
-    } 
-    catch (error) {
-        console.log("error: " + error);
-        res.status(401).send("Please Register/Login");
-    }
-}
-
-router.post('/api/v1/profile/new', auth, async (req,res) =>{
+router.post('/api/v1/profile/new', verify, async (req,res) =>{
 
     const {id, email, name, age, gender, weight} = req.body;
 
@@ -45,7 +34,7 @@ router.post('/api/v1/profile/new', auth, async (req,res) =>{
     }
 })
 
-router.get('/api/v1/profile/all', auth, async (req,res) =>{
+router.get('/api/v1/profile/all', verify, async (req,res) =>{
 
     try {
         const allProfile = await Profile.find({});
@@ -57,7 +46,7 @@ router.get('/api/v1/profile/all', auth, async (req,res) =>{
     }    
 })
 
-router.delete('/api/v1/profile/del/:name', auth, async (req,res) =>{
+router.delete('/api/v1/profile/del/:name', verify, async (req,res) =>{
 
     const profileName = req.params.name;
     try{
@@ -77,7 +66,7 @@ router.delete('/api/v1/profile/del/:name', auth, async (req,res) =>{
      }
 })
 
-router.patch('/api/v1/profile/update/:name', auth, async (req,res) =>{
+router.patch('/api/v1/profile/update/:name', verify, async (req,res) =>{
 
     const profileName = req.params.name;
     var {age, gender, weight} = req.body;

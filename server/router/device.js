@@ -5,21 +5,10 @@ const jwt = require('jsonwebtoken');
 
 const Device = require('../model/deviceSchema');
 dotenv.config({path:'../config.env'});
+const verify = require('../middleware/verify');
 
-const auth = async (req,res,next) => {
 
-    try {
-        const token = req.cookies.jwt;
-        jwt.verify(token, process.env.SECRET_KEY);
-        next();
-    } 
-    catch (error) {
-        console.log("error: " + error);
-        res.status(401).send("Please Register/Login");
-    }
-}
-
-router.post('/api/v1/device/new', auth, async (req,res) =>{
+router.post('/api/v1/device/new', verify, async (req,res) =>{
 
     const {email, deviceName,  deviceType, deviceId, deviceAddress} = req.body;
 
@@ -45,7 +34,7 @@ router.post('/api/v1/device/new', auth, async (req,res) =>{
     }
 })
 
-router.get('/api/v1/device/all', auth, async (req,res) =>{
+router.get('/api/v1/device/all', verify, async (req,res) =>{
 
     try {
         const allDevice = await Device.find({});
@@ -57,7 +46,7 @@ router.get('/api/v1/device/all', auth, async (req,res) =>{
     }    
 })
 
-router.delete('/api/v1/device/del/:deviceId', auth, async (req,res) =>{
+router.delete('/api/v1/device/del/:deviceId', verify, async (req,res) =>{
 
     const deviceId = req.params.deviceId;
     try{
@@ -77,7 +66,7 @@ router.delete('/api/v1/device/del/:deviceId', auth, async (req,res) =>{
      }
 })
 
-router.patch('/api/v1/device/update/:deviceId', auth, async (req,res) =>{
+router.patch('/api/v1/device/update/:deviceId', verify, async (req,res) =>{
 
     const deviceId = req.params.deviceId;
     var {deviceName, deviceAddress} = req.body;

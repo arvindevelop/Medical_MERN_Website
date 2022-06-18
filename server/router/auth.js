@@ -13,22 +13,8 @@ const CLIENT_URL = "http://localhost:5000/";  //make it 3000 for client, right n
 
 const User = require('../model/userSchema');
 dotenv.config({path:'../config.env'});
+const verify = require('../middleware/verify');
 
-
-const auth = async (req,res,next) => {
-
-    try {
-        const token = req.cookies.jwt;
-        const verifyUser = jwt.verify(token, process.env.SECRET_KEY);
-        //const verifyUser = jwt.verify(token, "secret key");
-        //const user = await User.findOne({_id:verifyUser._id});
-        next();
-    } 
-    catch (error) {
-        console.log("error: " + error);
-        res.status(401).send("Please register/Login: " + error);
-    }
-}
 
 router.get('/api/v1/auth/login',async (req,res) => {
 
@@ -100,7 +86,7 @@ router.post('/api/v1/auth/register', async (req,res) =>{
 })
 
 //First it authorize the user then do another operation
-router.get('/api/v1/auth/all', auth, async (req,res) =>{
+router.get('/api/v1/auth/all', verify, async (req,res) =>{
 
     try {
         const allUser = await User.find({});
@@ -112,7 +98,7 @@ router.get('/api/v1/auth/all', auth, async (req,res) =>{
     }    
 })
 
-router.delete('/api/v1/auth/del/:email', auth, async (req,res) =>{
+router.delete('/api/v1/auth/del/:email', verify, async (req,res) =>{
 
     const userEmail = req.params.email;
     try{
@@ -132,7 +118,7 @@ router.delete('/api/v1/auth/del/:email', auth, async (req,res) =>{
      }
 })
 
-router.patch('/api/v1/auth/update/:email', auth, async (req,res) =>{
+router.patch('/api/v1/auth/update/:email', verify, async (req,res) =>{
 
     const userEmail = req.params.email;
     var {username, password} = req.body;
