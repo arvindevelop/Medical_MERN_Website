@@ -37,7 +37,7 @@ app.use(require('./router/profile'));
 app.use(require('./router/device'));
 app.use(require('./middleware/verify'));
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 5000;
 
 app.get('/',(req,res) => {
     res.send(`At home`);
