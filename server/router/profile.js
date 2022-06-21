@@ -38,6 +38,7 @@ router.get('/api/v1/profile/all', verify, async (req,res) =>{
 
     try {
         const allProfile = await Profile.find({});
+        console.log(allProfile);
         res.status(200).json({status:"success", allprofile:allProfile});
     } 
     catch (err) {

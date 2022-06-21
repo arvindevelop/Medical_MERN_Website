@@ -17,22 +17,20 @@ const verify = require('../middleware/verify');
 
 
 router.post('/api/v1/auth/login',async (req,res) => {
-
     try{
         const {email,password} = req.body;
 
         if(!email || !password){
-            return res.status(400).json({error:"invalid details"});
+            return res.status(400).json({status:400, error:"invalid details"});
         }
 
         const userLogin = await User.findOne({email:email});
-
         if(userLogin){
 
             const isMatch = await bcrypt.compare(password,userLogin.password);
 
             if(!isMatch){
-                res.status(400).json({error:"invalid details"});
+                res.status(400).json({status:400, error:"invalid details"});
             }
             else{
                 //token generation
@@ -40,16 +38,16 @@ router.post('/api/v1/auth/login',async (req,res) => {
                 res.cookie("jwt",token);
                 
                 await User.findByIdAndUpdate(userLogin._id,{'$set' : { 'lastLogged' : Date.now()} }, { new : true });
-                res.status(200).json({status:"success", jwtToken:token});
+                res.status(200).json({status:200, jwtToken:token});
             }
         }
         else{
-            res.status(400).json({error:"invalid details"});
+            res.status(400).json({status:400, error:"invalid details"});
         }
     }
     catch(err){
         console.log(err);
-        res.status(500).json({error:"server error"});
+        res.status(500).json({status:500, error:"server error"});
     }
 })
 
