@@ -6,6 +6,7 @@ import Forgetpassword from './Component/Forgetpassword';
 import Sidebar from './Component/Sidebar';
 import Profilelist from './Component/profiles/Profilelist';
 import Addprofile from './Component/profiles/Addprofile';
+import Updateprofile from './Component/profiles/Updateprofile';
 
  const App = () => {
   return (
@@ -18,6 +19,7 @@ import Addprofile from './Component/profiles/Addprofile';
           <Route path="/Sidebar" element={<Sidebar />} />
           <Route path="/profilelist" element={<Profilelist />} />
           <Route path="/addprofile" element={<Addprofile />} />
+          <Route path="/updateprofile" element={<Updateprofile />} />
         </Routes>
     </BrowserRouter>
     </>

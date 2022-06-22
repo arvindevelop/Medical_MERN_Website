@@ -35,6 +35,7 @@ router.post('/api/v1/auth/login',async (req,res) => {
             else{
                 //token generation
                 const token = await userLogin.generateAuthToken();
+                //console.log(`token at login API: ${token}`);
                 res.cookie("jwt",token);
                 
                 await User.findByIdAndUpdate(userLogin._id,{'$set' : { 'lastLogged' : Date.now()} }, { new : true });

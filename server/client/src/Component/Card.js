@@ -1,22 +1,26 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.js';
 
 const Card = ({profile}) => {
 
-    const {name,age,gender,weight} = profile;
+    const {id,name,age,gender,weight} = profile;
     return (
         <>
             
-                <div class="col-sm-3">
-                    <div class="card">
-                    <div class="card-body">
+                <div className="col-sm-3">
+                    <div className="card">
+                    <div className="card-body">
                         <ul>
+                            <li>{id}</li>
                             <li>{name}</li>
                             <li>{age}</li>
                             <li>{gender}</li>
                             <li>{weight}</li>
                         </ul>
+                        <Link to="/updateprofile" state={{ id: id,name:name,age:age,gender:gender,weight:weight }}>Update</Link>
+                        {/* <Link to={{pathname:'/updateprofile',state: {id:id}  }}>Update</Link> */}
                     </div>
                     </div>
                 </div>

@@ -22,6 +22,7 @@ const Login = () => {
     
         const res = await fetch('http://localhost:5000/api/v1/auth/login',{
           method:"POST",
+          credentials: 'include', 
           headers:{
             "Content-Type" : "application/json"
           },
@@ -40,18 +41,18 @@ const Login = () => {
         //   }, []);
 
         const data = await res.json();
-        console.log(data);
+        //console.log(data);
         if(data.status === 400 || !data){
             window.alert('Invalid detail');
-            console.log('Invalid detail');
+            //console.log('Invalid detail');
         }
         else if(data.status === 500){
             window.alert("Server error");
-            console.log('Invalid detail');
+            //console.log('Invalid detail');
         }
         else{
           window.alert("Logged In successfully");
-          console.log('Logged in successfully');
+          //console.log('Logged in successfully');
           window.location.replace('/dashboard');
         }
       }
