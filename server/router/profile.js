@@ -70,15 +70,16 @@ router.delete('/api/v1/profile/del/:name', verify, async (req,res) =>{
 router.patch('/api/v1/profile/update/:name', verify, async (req,res) =>{
 
     const profileName = req.params.name;
+    console.log(profileName);
     var {age, gender, weight} = req.body;
     try{
         const profileExist = await Profile.findOne({name:profileName});
         if(!profileExist){
-             return res.status(400).json({error: "invalid detail"});
+             return res.status(400).json({status:400, error: "invalid detail"});
          }
          else{
             await Profile.updateOne({name:profileName},{$set : { 'age' : age, 'gender' : gender, 'weight' : weight}});
-            res.status(200).json({message:"success"});
+            res.status(200).json({status:200, message:"success"});
          }
      }
      catch(err){

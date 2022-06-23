@@ -7,7 +7,7 @@ import Sidebar from '../Sidebar';
 
 const Addprofile = () => {
 
-    const [profile, setProfile] = useState({id:"", emai:"", name:"", age:"", gender:"", weight:""});
+    const [profile, setProfile] = useState({id:"", email:"", name:"", age:"", gender:"", weight:""});
 
     let name,value;
     const handleInputs = (e) =>{
