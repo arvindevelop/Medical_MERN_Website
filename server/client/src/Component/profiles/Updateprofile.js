@@ -6,10 +6,7 @@ import Sidebar from '../Sidebar';
 
 const Updateprofile = () => {
 
-    console.log("in update profile")
-    console.log(useLocation().state)
     const {name,age,gender,weight} = useLocation().state;
-    //console.log(props.location)
 
     const [profile, setProfile] = useState({ name:name, age:age, gender:gender, weight:weight});
 
@@ -26,6 +23,7 @@ const Updateprofile = () => {
     
         const {age, gender, weight} = profile;
     
+        //Here we can't update the profile name because if we change it then in query we will provide wrong param
         const res = await fetch(`http://localhost:5000/api/v1/profile/update/${name}`,{
           method:"PATCH",
           credentials: 'include',
@@ -41,15 +39,12 @@ const Updateprofile = () => {
         console.log(data);
         if(data.status === 400 || !data){
             window.alert('Invalid detail');
-            console.log('Invalid detail');
         }
         else if(data.status === 500){
             window.alert("Server error");
-            console.log('Invalid detail');
         }
         else{
           window.alert("Profile updated successfully");
-          console.log('Profile updated successfully');
           window.location.replace('/profilelist');
         }
       }
@@ -68,7 +63,7 @@ const Updateprofile = () => {
                                     <form>
                                         <div className="mb-3">
                                             <label className="form-label">Name</label>
-                                            <input type="text" name="name" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" 
+                                            <input type="text" name="name" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" readOnly
                                             value={profile.name}
                                             onChange={handleInputs}/>
                                         </div>

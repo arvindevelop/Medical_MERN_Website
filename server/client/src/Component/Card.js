@@ -8,7 +8,6 @@ const Card = ({profile}) => {
     const {id,name,age,gender,weight} = profile;
     return (
         <>
-            
                 <div className="col-sm-3">
                     <div className="card">
                     <div className="card-body">
@@ -20,11 +19,9 @@ const Card = ({profile}) => {
                             <li>{weight}</li>
                         </ul>
                         <Link to="/updateprofile" state={{ id: id,name:name,age:age,gender:gender,weight:weight }}>Update</Link>
-                        {/* <Link to={{pathname:'/updateprofile',state: {id:id}  }}>Update</Link> */}
                     </div>
                     </div>
                 </div>
-           
         </>
     )
 }

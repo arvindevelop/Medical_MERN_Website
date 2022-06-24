@@ -37,15 +37,12 @@ const Addprofile = () => {
         console.log(data);
         if(data.status === 400 || !data){
             window.alert('Invalid detail');
-            console.log('Invalid detail');
         }
         else if(data.status === 500){
             window.alert("Server error");
-            console.log('Invalid detail');
         }
         else{
           window.alert("Profile added successfully");
-          console.log('Profile added successfully');
           window.location.replace('/profilelist');
         }
       }

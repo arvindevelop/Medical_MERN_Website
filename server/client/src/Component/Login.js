@@ -30,29 +30,16 @@ const Login = () => {
             email,password
           })
         });
-        // let data;
-        // useEffect(() => {
-        //     axios.post('http://localhost:5000/api/v1/auth/login',{
-        //         email:user.email,
-        //         password: user.password
-        //       }).then((response) => {
-        //       data = response;
-        //     });
-        //   }, []);
 
         const data = await res.json();
-        //console.log(data);
         if(data.status === 400 || !data){
             window.alert('Invalid detail');
-            //console.log('Invalid detail');
         }
         else if(data.status === 500){
             window.alert("Server error");
-            //console.log('Invalid detail');
         }
         else{
           window.alert("Logged In successfully");
-          //console.log('Logged in successfully');
           window.location.replace('/dashboard');
         }
       }

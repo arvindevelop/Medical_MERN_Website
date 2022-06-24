@@ -10,7 +10,6 @@ const Profilelist = () => {
     const [profiles, setProfiles] = useState([])
 
     const fetchData = () => {
-        console.log("inside fetchdata")
         axios.get('http://localhost:5000/api/v1/profile/all',{ withCredentials: true })
             .then(response => {
                         console.log(response.data)
@@ -24,8 +23,6 @@ const Profilelist = () => {
     useEffect(() => {
         fetchData()
     },[]);
-
-    console.log(`After axios call ${profiles.allprofile}`);
 
     return (
         <>
