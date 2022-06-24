@@ -24,7 +24,7 @@ const Updateprofile = () => {
         const {age, gender, weight} = profile;
     
         //Here we can't update the profile name because if we change it then in query we will provide wrong param
-        const res = await fetch(`http://localhost:5000/api/v1/profile/update/${name}`,{
+        const res = await fetch(`https://remotedeviceinfo.herokuapp.com/api/v1/profile/update/${name}`,{
           method:"PATCH",
           credentials: 'include',
           headers:{

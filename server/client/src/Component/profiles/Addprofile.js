@@ -1,7 +1,6 @@
 import React,{useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.js';
-import axios from 'axios';
 import {NavLink, useHistory} from 'react-router-dom';
 import Sidebar from '../Sidebar';
 
@@ -22,7 +21,7 @@ const Addprofile = () => {
     
         const {id, email, name, age, gender, weight} = profile;
     
-        const res = await fetch('http://localhost:5000/api/v1/profile/new',{
+        const res = await fetch('https://remotedeviceinfo.herokuapp.com/api/v1/profile/new',{
           method:"POST",
           credentials: 'include',
           headers:{
