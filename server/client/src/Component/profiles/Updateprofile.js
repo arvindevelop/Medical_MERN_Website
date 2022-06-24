@@ -7,7 +7,7 @@ import Sidebar from '../Sidebar';
 const Updateprofile = () => {
 
     const {name,age,gender,weight} = useLocation().state;
-
+    const profileName = name;
     const [profile, setProfile] = useState({ name:name, age:age, gender:gender, weight:weight});
 
     let nameval,value;
@@ -21,17 +21,17 @@ const Updateprofile = () => {
     const PostData = async (e) =>{
         e.preventDefault();
     
-        const {age, gender, weight} = profile;
+        const {name, age, gender, weight} = profile;
     
         //Here we can't update the profile name because if we change it then in query we will provide wrong param
-        const res = await fetch(`https://remotedeviceinfo.herokuapp.com/api/v1/profile/update/${name}`,{
+        const res = await fetch(`https://remotedeviceinfo.herokuapp.com/api/v1/profile/update/${profileName}`,{
           method:"PATCH",
           credentials: 'include',
           headers:{
             "Content-Type" : "application/json"
           },
           body:JSON.stringify({
-            age, gender, weight
+            name, age, gender, weight
           })
         });
 
@@ -63,7 +63,7 @@ const Updateprofile = () => {
                                     <form>
                                         <div className="mb-3">
                                             <label className="form-label">Name</label>
-                                            <input type="text" name="name" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" readOnly
+                                            <input type="text" name="name" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
                                             value={profile.name}
                                             onChange={handleInputs}/>
                                         </div>
