@@ -39,9 +39,9 @@ app.use(require('./router/device'));
 
 const PORT = process.env.PORT || 5000;
 
-app.get('/',(req,res) => {
-    res.send(`At home`);
-})
+// app.get('/',(req,res) => {
+//     res.send(`At home`);
+// })
 
 if(process.env.NODE_ENV == "production"){
     app.use(express.static("client/build"));
