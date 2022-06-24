@@ -40,7 +40,7 @@ const Login = () => {
         }
         else{
           window.alert("Logged In successfully");
-          navigate('/dashboard');
+          navigate('/dashboard',{ replace: true });
         }
       }
 
