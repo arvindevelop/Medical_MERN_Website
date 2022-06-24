@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route} from 'react-router-dom';
+import {browserHistory, BrowserRouter, Routes, Route} from 'react-router-dom';
 import Login from './Component/Login';
 import Dashboard from './Component/Dashboard';
 import Forgetpassword from './Component/Forgetpassword';
@@ -12,7 +12,7 @@ import Updateprofile from './Component/profiles/Updateprofile';
   return (
     <>
       <BrowserRouter>
-        <Routes>
+        <Routes history={browserHistory}>
           <Route path="/" element={<Login />}></Route>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/Forgetpassword" element={<Forgetpassword />} />

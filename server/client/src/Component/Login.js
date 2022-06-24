@@ -40,7 +40,7 @@ const Login = () => {
         }
         else{
           window.alert("Logged In successfully");
-          window.location.replace('https://remotedeviceinfo.herokuapp.com/#/dashboard');
+          window.location.replace('/dashboard');
         }
       }
 
