@@ -1,10 +1,10 @@
 import React,{useState} from 'react';
-import {NavLink, useHistory} from 'react-router-dom';
+import {NavLink, useNavigate} from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
 
 const Login = () => {
 
-    const history = useHistory();
+    const navigate = useNavigate();
     const [user, setUser] = useState({email:"",password:""});
 
     let name,value;
@@ -40,7 +40,7 @@ const Login = () => {
         }
         else{
           window.alert("Logged In successfully");
-          history.push('/dashboard');
+          navigate('/dashboard');
         }
       }
 
