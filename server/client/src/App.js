@@ -1,5 +1,5 @@
 import React from 'react';
-import {BrowserRouter, Routes, Route} from 'react-router-dom';
+import {Switch, Route} from 'react-router-dom';
 import Login from './Component/Login';
 import Dashboard from './Component/Dashboard';
 import Forgetpassword from './Component/Forgetpassword';
@@ -11,17 +11,15 @@ import Updateprofile from './Component/profiles/Updateprofile';
  const App = () => {
   return (
     <>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Login />}></Route>
+        <Switch>
+          <Route exact path="/" element={<Login />}/>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/Forgetpassword" element={<Forgetpassword />} />
           <Route path="/Sidebar" element={<Sidebar />} />
           <Route path="/profilelist" element={<Profilelist />} />
           <Route path="/addprofile" element={<Addprofile />} />
           <Route path="/updateprofile" element={<Updateprofile />} />
-        </Routes>
-    </BrowserRouter>
+        </Switch>
     </>
   )
 }
