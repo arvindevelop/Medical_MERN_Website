@@ -1,5 +1,4 @@
-import React,{useState,useEffect} from 'react';
-import axios from 'axios';
+import React,{useState} from 'react';
 import {NavLink} from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
 
@@ -40,7 +39,7 @@ const Login = () => {
         }
         else{
           window.alert("Logged In successfully");
-          window.location.push('/dashboard');
+          window.location.replace('/dashboard');
         }
       }
 
