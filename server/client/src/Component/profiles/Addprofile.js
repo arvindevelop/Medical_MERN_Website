@@ -1,11 +1,12 @@
 import React,{useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.js';
-import {NavLink, useHistory} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import Sidebar from '../Sidebar';
 
 const Addprofile = () => {
 
+    const navigate = useNavigate();
     const [profile, setProfile] = useState({id:"", email:"", name:"", age:"", gender:"", weight:""});
 
     let name,value;
@@ -42,7 +43,7 @@ const Addprofile = () => {
         }
         else{
           window.alert("Profile added successfully");
-          window.location.replace('/profilelist');
+          navigate('/profilelist',{ replace: true });
         }
       }
 

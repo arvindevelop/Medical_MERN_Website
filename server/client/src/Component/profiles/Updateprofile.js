@@ -1,11 +1,12 @@
 import React,{useState} from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation , useNavigate} from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.js';
 import Sidebar from '../Sidebar';
 
 const Updateprofile = () => {
 
+    const navigate = useNavigate();
     const {name,age,gender,weight} = useLocation().state;
     const profileName = name;
     const [profile, setProfile] = useState({ name:name, age:age, gender:gender, weight:weight});
@@ -45,7 +46,7 @@ const Updateprofile = () => {
         }
         else{
           window.alert("Profile updated successfully");
-          window.location.replace('/profilelist');
+          navigate('/profilelist',{ replace: true });
         }
       }
 
