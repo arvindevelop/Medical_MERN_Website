@@ -13,7 +13,7 @@ import Updateprofile from './Component/profiles/Updateprofile';
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Login />}/>
+          <Route path="/" element={<Login />}></Route>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/Forgetpassword" element={<Forgetpassword />} />
           <Route path="/Sidebar" element={<Sidebar />} />
