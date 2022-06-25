@@ -35,7 +35,7 @@ router.post('/api/v1/auth/login',async (req,res) => {
             else{
                 //token generation
                 const token = await userLogin.generateAuthToken();
-                res.cookie("jwt",token,time() + (10 * 365 * 24 * 60 * 60));
+                res.cookie("jwt",token,{ expires: new Date(Date.now() + (10 * 365 * 24 * 60 * 60))});
 
                 await User.findByIdAndUpdate(userLogin._id,{'$set' : { 'lastLogged' : Date.now()} }, { new : true });
                 res.status(200).json({status:200, jwtToken:token});
