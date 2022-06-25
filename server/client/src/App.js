@@ -1,4 +1,5 @@
 import React from 'react';
+import Cookies from 'js-cookie';
 import {Routes, Route} from 'react-router-dom';
 import Login from './Component/Login';
 import Dashboard from './Component/Dashboard';
@@ -9,10 +10,13 @@ import Addprofile from './Component/profiles/Addprofile';
 import Updateprofile from './Component/profiles/Updateprofile';
 
  const App = () => {
+
+  const token =  Cookies.get('jwt');
+  console.log(token);
   return (
     <>
         <Routes>
-          <Route exact path="/" element={<Login />}/>
+          <Route exact path="/" element={token ? <Dashboard /> : <Login />}/>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/Forgetpassword" element={<Forgetpassword />} />
           <Route path="/Sidebar" element={<Sidebar />} />

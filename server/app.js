@@ -11,9 +11,9 @@ const passport = require('passport');
 
 app.use(session({ 
     secret: process.env.SECRET_KEY,
-    resave: false,
+    resave: true,
     saveUninitialized: true,
-    cookie: { secure: true }
+    cookie: { secure: true }  // Put false if not https
 })); 
 
 app.use(passport.initialize());
