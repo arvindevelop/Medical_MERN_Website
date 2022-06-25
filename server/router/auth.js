@@ -76,7 +76,9 @@ router.post('/api/v1/auth/register', async (req,res) =>{
 
             //token generation
             const token = await user.generateAuthToken();
-            res.cookie("jwt",token);
+            res.cookie("jwt",token,{ 
+                expires: new Date(Date.now() + (3600 * 1000 * 24 * 365 * 1)),
+            });
 
             const savedUser = await user.save();
             res.status(200).json({staus:400, message:"success", userData:savedUser});
