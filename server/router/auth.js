@@ -36,7 +36,7 @@ router.post('/api/v1/auth/login',async (req,res) => {
                 //token generation
                 const token = await userLogin.generateAuthToken();
                 res.cookie("jwt",token,{ 
-                    expires: new Date(Date.now() + (10 * 365 * 24 * 60 * 60)),
+                    expires: new Date(Date.now() + (3600 * 1000 * 24 * 365 * 1)),
                     httpOnly:true,
                     secure:true
                 });
