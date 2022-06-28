@@ -20,7 +20,7 @@ const Login = () => {
     
         const {email,password} = user;
     
-        const res = await fetch('https://remotedeviceinfo.herokuapp.com/api/v1/auth/login',{
+        const res = await fetch('http://localhost:5000/api/v1/auth/login',{
           method:"POST",
           credentials: 'include', 
           headers:{

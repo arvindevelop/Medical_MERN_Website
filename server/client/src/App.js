@@ -8,11 +8,11 @@ import Sidebar from './Component/Sidebar';
 import Profilelist from './Component/profiles/Profilelist';
 import Addprofile from './Component/profiles/Addprofile';
 import Updateprofile from './Component/profiles/Updateprofile';
+import Viewprofile from './Component/profiles/Viewprofile';
 
  const App = () => {
 
   const token =  Cookies.get('jwt');
-  console.log(token);
   return (
     <>
         <Routes>
@@ -23,6 +23,7 @@ import Updateprofile from './Component/profiles/Updateprofile';
           <Route path="/profilelist" element={<Profilelist />} />
           <Route path="/addprofile" element={<Addprofile />} />
           <Route path="/updateprofile" element={<Updateprofile />} />
+          <Route path="/viewprofile" element={<Viewprofile />} />
         </Routes>
     </>
   )

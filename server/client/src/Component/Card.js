@@ -18,7 +18,11 @@ const Card = ({profile}) => {
                             <li>{gender}</li>
                             <li>{weight}</li>
                         </ul>
-                        <Link to="/updateprofile" state={{ id: id,name:name,age:age,gender:gender,weight:weight }}>Update</Link>
+                        {/* <Link to="/updateprofile" state={{ id: id,name:name,age:age,gender:gender,weight:weight }}>Update</Link> */}
+                        <div className="d-flex justify-content-between">
+                            <Link to="/updateprofile" state={{ id: id,name:name,age:age,gender:gender,weight:weight }}>Update</Link>
+                            <Link to="/viewprofile">View profile</Link>
+                        </div>
                     </div>
                     </div>
                 </div>
