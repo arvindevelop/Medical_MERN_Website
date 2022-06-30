@@ -2,6 +2,7 @@ import React,{useState} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.js';
 import {Table} from "semantic-ui-react";
+import './style.css';
 
 import Sidebar from './Sidebar';
 
@@ -44,11 +45,11 @@ const Dashboard = () => {
                                     </div>
                                 </div>
                                 <div>
-                                    <div className="d-flex justify-content-between my-0" style={{padding:"1em"}}>
+                                    <div className="d-flex justify-content-between my-0" style={{padding:"1em",width:"50%"}}>
                                         <div style={{display:"inline-block"}}><h4>Table Title</h4></div>
                                         <div style={{display:"inline-block"}}><p>Show 10 items</p></div>
                                     </div>
-                                    <Table celled>
+                                    <Table celled className="table-ui">
                                         <Table.Header>
                                             <Table.Row>
                                                 <Table.HeaderCell>First Name, Last Name</Table.HeaderCell>

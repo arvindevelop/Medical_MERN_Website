@@ -1,3 +1,4 @@
+/*--------------------------Tempearture box design----------------------*/
 #login-form1
 {
     margin-top: 70px;
@@ -18,7 +19,7 @@
     width: 220px;
     margin: 35px auto;
     position: relative;
-    box-shadow: 0 0 20px 9px #ff61241f;
+    background-color:aquamarine;
     border-radius: 30px;
 }
 .toggle-btn1
@@ -99,4 +100,11 @@
 {
     color: black;
     font-size: 15;
+}
+/*--------------------------Tempearture box design end ----------------------*/
+
+/*---------------------------Table Design-------------------------------------*/
+.table-ui
+{
+    width:50%;
 }

@@ -1,20 +1,24 @@
 import React from 'react';
-import {NavLink} from 'react-router-dom';
-import './style.css';
+import '../style.css';
 
 const ViewTemp = () => {
 
-        var x = document.getElementById('login1');
-        var y = document.getElementById('register1');
-        var z = document.getElementById('btn1');
-        function C()
+        function getParameter(){
+            var x = document.getElementById('login1');
+            var y = document.getElementById('register1');
+            var z = document.getElementById('btn1');
+            return [x,y,z];
+        }
+        function F()
         {
+            const [x,y,z] = getParameter();
             x.style.left = '-400px';
             y.style.left = '50px';
             z.style.left = '110px';
         }
-        function F()
+        function C()
         {
+            const [x,y,z] = getParameter();
             x.style.left = '50px';
             y.style.left = '450px';
             z.style.left = '0px';
@@ -25,27 +29,28 @@ const ViewTemp = () => {
                 <div className="form-box1">
                     <div className="button-box1">
                         <div id="btn1"></div>
-                        <button type="button" onClick={C} className="toggle-btn1">Celcius</button>
-                        <button type="button" onclick={F} className="toggle-btn1">Faren</button>
+                        <button type="button" onClick={C} className="toggle-btn1" style={{marginLeft:"-5px"}}>Celcius</button>
+                        <button type="button" onClick={F} className="toggle-btn1" style={{marginLeft:"-5px"}}>Farenhite</button>
                     </div>
                     <div id="login1" className="input-group-login1">
-                        <div className="d-flex justify-content-between" style={{padding:"1em"}}>
-                                    <div style={{display:"inline-block"}}><p>12 PM</p></div>
-                                    <div style={{display:"inline-block"}}><p>37 c</p></div>
+                        <div className="d-flex justify-content-between">
+                                    <p style={{display:"inline-block"}}>12 PM</p>
+                                    <p style={{display:"inline-block"}}>37 C</p>
+                                    <p style={{display:"inline-block"}}>Normal</p>
                         </div>
-                        <div className="d-flex justify-content-between" style={{padding:"1em"}}>
-                                    <div style={{display:"inline-block"}}><p>12 PM</p></div>
-                                    <div style={{display:"inline-block"}}><p>37 c</p></div>
+                        <div className="d-flex justify-content-between">
+                                    <p style={{display:"inline-block"}}>11 PM</p>
+                                    <p style={{display:"inline-block"}}>37.2 C</p>
+                                    <p style={{display:"inline-block"}}>Normal</p>
                         </div>
                     </div>
-                    <form id="register1" className="input-group-register1">
-                        <input type="text" className="input-field1" placeholder="First Name" name="first_name" required/>
-                        <input type="text" className="input-field1" placeholder="Last Name" name="last_name" required/>
-                        <input type="email" className="input-field1" placeholder="Email Id" name="email" required/>
-                        <input type="password" className="input-field1" placeholder="Enter password" name="password" required/>
-                        <input type="text" className="input-field1" placeholder="Enter College Name" name="college" required/>
-                        
-                    </form>
+                    <div id="register1" className="input-group-register1">
+                        <div className="d-flex justify-content-between">
+                                    <p style={{display:"inline-block"}}>12 PM</p>
+                                    <p style={{display:"inline-block"}}>98.6 F</p>
+                                    <p style={{display:"inline-block"}}>Normal</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </>
