@@ -27,7 +27,8 @@ router.post('/api/v1/auth/login',async (req,res) => {
         const userLogin = await User.findOne({email:email});
         if(userLogin){
 
-            const isMatch = await bcrypt.compare(password,userLogin.password);
+            const isMatch = bcrypt.compare(password,userLogin.password);
+           // console.log(isMatch)
 
             if(!isMatch){
                 res.status(400).json({status:400, error:"invalid details"});

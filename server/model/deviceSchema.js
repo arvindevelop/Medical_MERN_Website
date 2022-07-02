@@ -2,6 +2,10 @@ const mongoose = require('mongoose');
 const validator = require('validator')
 
 const deviceSchema = new mongoose.Schema({
+    id:{
+        type:String,
+        required:true
+    },
     email:{
         type: String,
         required: true,
@@ -27,6 +31,10 @@ const deviceSchema = new mongoose.Schema({
     deviceAddress: {
         type: String,
         required: true
+    },
+    sync:{
+        type:String,
+        default:'yes'
     },
     addedOn:{
         type : Date,

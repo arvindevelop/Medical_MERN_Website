@@ -41,6 +41,10 @@ const userSchema = new mongoose.Schema({
     shared: [{
         type: String
     }],
+    sync:{
+        type: String,
+        default: 'yes'
+    },
     tokens:[
         {
             token:{

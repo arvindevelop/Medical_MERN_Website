@@ -10,9 +10,9 @@ const verify = require('../middleware/verify');
 
 router.post('/api/v1/profile/new', verify, async (req,res) =>{
 
-    const {id, email, name, age, gender, weight} = req.body;
+    const {id, email, name, age, gender, weight, image} = req.body;
 
-    if(!id || !email || !name || !age || !gender || !weight){
+    if(!id || !email || !name || !age || !gender || !weight || !image){
         return res.status(400).json({status:400, error: "invalid details"});
     }
 
@@ -23,7 +23,7 @@ router.post('/api/v1/profile/new', verify, async (req,res) =>{
             return res.status(400).json({status:400, message: "profile exist"});
         }
         else{
-            const profile = new Profile({id, email, name, age, gender, weight});
+            const profile = new Profile({id, email, name, age, gender, weight, image});
             const savedProfile = await profile.save();
             res.status(200).json({status:200, message:"success", profileData:savedProfile});
         }
@@ -51,7 +51,6 @@ router.delete('/api/v1/profile/del/:name', verify, async (req,res) =>{
     const profileName = req.params.name;
     try{
         const profileExist = await Profile.findOne({name:profileName});
- 
         if(!profileExist){
              return res.status(400).json({status:400, error: "invalid detail"});
          }
@@ -59,6 +58,32 @@ router.delete('/api/v1/profile/del/:name', verify, async (req,res) =>{
              await Profile.deleteOne({name:profileName});
              res.status(200).json({status:200, message:"success"});
          }
+
+        // const profileExist = null;
+        // const promise1 = () => {
+        //     profileExist = Profile.findOne({name:profileName});
+        // }
+        // const promise2 = () => {
+        //     console.log(profileExist)
+        //     if(!profileExist)
+        //     {
+        //         res.status(400).json({status:400, error: "invalid detail"});
+        //     }
+        //     else
+        //     {
+        //         Profile.deleteOne({name:profileName});
+        //         res.status(200).json({status:200, message:"success"});
+        //     }
+        // }
+
+        // await Promise.all([promise1,promise2])
+        // .then(
+        //     console.log("All done")
+        // )
+        // .catch(
+        //     console.log(profileExist),
+        //     res.status(400).json({status:400, error: "invalid details"})
+        // )
      }
      catch(err){
          console.log(err);

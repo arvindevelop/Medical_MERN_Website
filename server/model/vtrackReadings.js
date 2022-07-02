@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const validator = require('validator')
 
-const profileSchema = new mongoose.Schema({
+const vtrackReadings = new mongoose.Schema({
     id:{
         type: String,
         required: true
@@ -19,35 +19,36 @@ const profileSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    age: {
-        type: Number,
-        required: true
-    },
-    gender: {
+    deviceName: {
         type: String,
         required: true
     },
-    weight: {
-        type: Number,
+    deviceId: {
+        type: String,
         required: true
     },
-    photo:{
+    temperature: {
+        type: String,
+        required: true
+    },
+    timeStamp:{
+        type: Long,
+        required:true
+    },
+    battery:{
         type: String
+    },
+    date:{
+        type: String,
+        required: true
     },
     sync:{
         type:String,
         default:'yes'
-    },
-    createdOn:{
-        type : Date,
-        default: Date.now
-    },
-    shared: [{
-        type: String
-    }]
+    }
 })
 
 
-const Profile = mongoose.model('Profile',profileSchema);
+const VtrackReading = mongoose.model('VtrackReading',vtrackReadings);
 
-module.exports = Profile;
+module.exports = VtrackReading;
