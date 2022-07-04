@@ -8,7 +8,7 @@ dotenv.config({path:'./config.env'});
 const SECRET_KEY = process.env.SECRET_KEY;
 
 const userSchema = new mongoose.Schema({
-    username:{
+    userName:{
         type: String,
         required: true
     },
@@ -30,7 +30,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: 'customer'
     },
-    creationDate:{
+    createdOn:{
         type : Date,
         default: Date.now
     },

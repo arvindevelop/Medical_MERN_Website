@@ -56,9 +56,9 @@ router.post('/api/v1/auth/login',async (req,res) => {
 
 router.post('/api/v1/auth/register', async (req,res) =>{
 
-    const {username,email,password,role} = req.body;
+    const {userName,email,password} = req.body;
 
-    if(!username || !email || !password || !role){
+    if(!userName || !email || !password){
         return res.status(400).json({status:400, error: "invalid details"});
     }
 
@@ -73,7 +73,7 @@ router.post('/api/v1/auth/register', async (req,res) =>{
             return res.status(400).json({status:400, error: "Email already exist"});
         }
         else{
-            const user = new User({username,email,password,role});
+            const user = new User(req.body);
 
             //token generation
             const token = await user.generateAuthToken();
@@ -127,7 +127,7 @@ router.delete('/api/v1/auth/del/:email', verify, async (req,res) =>{
 router.patch('/api/v1/auth/update/:email', verify, async (req,res) =>{
 
     const userEmail = req.params.email;
-    var {username, password} = req.body;
+    var {userName, password} = req.body;
     if(password.length < 8){
         return res.status(400).json({status:400, error: "Password must be at least 8 chracters"});
     }
@@ -138,7 +138,7 @@ router.patch('/api/v1/auth/update/:email', verify, async (req,res) =>{
          }
          else{
             password = bcrypt.hashSync(password, 12);
-            await User.updateOne({email:userEmail},{$set : { 'username' : username, 'password' : password, 'lastLogged' : Date.now()}});
+            await User.updateOne({email:userEmail},{$set : { 'username' : userName, 'password' : password, 'lastLogged' : Date.now()}});
             res.status(200).json({status:200, message:"success"});
          }
      }

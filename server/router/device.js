@@ -10,9 +10,9 @@ const verify = require('../middleware/verify');
 
 router.post('/api/v1/device/new', verify, async (req,res) =>{
 
-    const {email, deviceName,  deviceType, deviceId, deviceAddress} = req.body;
+    const {_id, email, deviceName,  deviceType, deviceId, deviceAddress} = req.body;
 
-    if(!email || !deviceName || !deviceType || !deviceId || !deviceAddress){
+    if(_id || !email || !deviceName || !deviceType || !deviceId || !deviceAddress){
         return res.status(400).json({status:400, error: "invalid details"});
     }
 
@@ -23,7 +23,7 @@ router.post('/api/v1/device/new', verify, async (req,res) =>{
             return res.status(400).json({status:400, message: "Device already exist"});
         }
         else{
-            const device = new Device({email, deviceName,  deviceType, deviceId, deviceAddress});
+            const device = new Device(req.body);
             const savedDevice = await device.save();
             res.status(200).json({status:400, message:"success", deviceData:savedDevice});
         }

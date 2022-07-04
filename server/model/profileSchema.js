@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const validator = require('validator')
 
 const profileSchema = new mongoose.Schema({
-    id:{
+    _id:{
         type: String,
         required: true
     },
@@ -17,7 +17,8 @@ const profileSchema = new mongoose.Schema({
     },
     name:{
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     age: {
         type: Number,

@@ -10,18 +10,15 @@ const verify = require('../middleware/verify');
 
 router.post('/api/v1/vtrack/', verify, async (req,res) =>{
 
-    const {id, email, name, deviceName, deviceId, temperature, timeStamp, battery, date, Sync} = req.body;
-
-    if(!id || !email || !name || !deviceName || !deviceId || !temperature || !timeStamp || !date){
+    const {_id, email, name, deviceName, deviceId, temperature, timeStamp, date} = req.body;
+    if(!_id || !email || !name || !deviceName || !deviceId || !temperature || !timeStamp || !date){
         return res.status(400).json({status:400, error: "invalid details"});
     }
 
     try{
-       
-            const newReading = new Profile({id, email, name, deviceName, deviceId, temperature, timeStamp, battery, date, Sync});
-            await VtrackReading.save();
+            const newReading = new VtrackReading(req.body);
+            await newReading.save();
             res.status(200).json({status:200, message:"success"});
-        
     }
     catch(err){
         console.log(err);

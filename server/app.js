@@ -35,6 +35,7 @@ app.use(cookieParser());
 app.use(require('./router/auth'));
 app.use(require('./router/profile'));
 app.use(require('./router/device'));
+app.use(require('./router/vtrack'));
 // app.use(require('./middleware/verify'));
 
 const PORT = process.env.PORT || 5000;

@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
-const validator = require('validator')
+const validator = require('validator');
 
 const vtrackReadings = new mongoose.Schema({
-    id:{
+    _id:{
         type: String,
         required: true
     },
@@ -31,12 +31,12 @@ const vtrackReadings = new mongoose.Schema({
         type: String,
         required: true
     },
-    timeStamp:{
-        type: Long,
-        required:true
-    },
     battery:{
         type: String
+    },
+    timeStamp:{
+        type: Number,
+        required:true
     },
     date:{
         type: String,
