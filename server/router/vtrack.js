@@ -31,7 +31,7 @@ router.get('/api/v1/vtrack/all/:email/:name', verify, async (req,res) =>{
     const Name = req.params.name;
     const Email = req.params.email;
     try {
-        const allReading = await VtrackReading.findOne({name:Name,email:Email});
+        const allReading = await VtrackReading.find({name:Name,email:Email});
         res.status(200).json({status:200, message:"success", allreading:allReading});
     } 
     catch (err) {
