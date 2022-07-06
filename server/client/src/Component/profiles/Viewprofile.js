@@ -42,12 +42,13 @@ const Viewprofile = () => {
         var data = [];
         for(let i=totalData;i<len;i++)
         {
+            //here first check date, if date is same as user's date then add that particular data
             data.push(new Date(profiles.allreading[i].timestamp).getDate());
         }
         //setLabels(data);
         return data;
     }
-
+    
     function getValues(day){
         var len = profiles.allreading.length;
         var totalData = len - day;

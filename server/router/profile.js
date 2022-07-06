@@ -13,19 +13,19 @@ router.post('/api/v1/profile/new', verify, async (req,res) =>{
     const {_id, email, name, age, gender, weight} = req.body;
 
     if(!_id || !email || !name || !age || !gender || !weight){
-        return res.status(400).json({status:400, error: "invalid details"});
+        return res.status(406).json({status:406, error: "invalid details"});
     }
 
     try{
        const profileExist = await Profile.findOne({name:name});
 
        if(profileExist){
-            return res.status(400).json({status:400, message: "profile exist"});
+            return res.status(406).json({status:406, message: "profile exist"});
         }
         else{
             const profile = new Profile(req.body);
             const savedProfile = await profile.save();
-            res.status(200).json({status:200, message:"success", profileData:savedProfile});
+            res.status(201).json({status:201, message:"success", profileData:savedProfile});
         }
     }
     catch(err){
@@ -52,7 +52,7 @@ router.delete('/api/v1/profile/del/:name', verify, async (req,res) =>{
     try{
         const profileExist = await Profile.findOne({name:profileName});
         if(!profileExist){
-             return res.status(400).json({status:400, error: "invalid detail"});
+             return res.status(406).json({status:406, error: "invalid detail"});
          }
          else{
              await Profile.deleteOne({name:profileName});
@@ -73,7 +73,7 @@ router.patch('/api/v1/profile/update/:name', verify, async (req,res) =>{
     try{
         const profileExist = await Profile.findOne({name:profileName});
         if(!profileExist){
-             return res.status(400).json({status:400, error: "invalid detail"});
+             return res.status(406).json({status:406, error: "invalid detail"});
          }
          else{
             await Profile.updateOne({name:profileName},{$set : { 'age' : age, 'gender' : gender, 'weight' : weight}});

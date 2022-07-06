@@ -32,7 +32,7 @@ const Login = () => {
         });
 
         const data = await res.json();
-        if(data.status === 400 || !data){
+        if(data.status === 406 || !data){
             window.alert('Invalid detail');
         }
         else if(data.status === 500){

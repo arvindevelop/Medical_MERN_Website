@@ -12,13 +12,13 @@ router.post('/api/v1/vtrack/', verify, async (req,res) =>{
 
     const {_id, email, name, deviceName, deviceId, temperature, timeStamp, date} = req.body;
     if(!_id || !email || !name || !deviceName || !deviceId || !temperature || !timeStamp || !date){
-        return res.status(400).json({status:400, error: "invalid details"});
+        return res.status(406).json({status:406, error: "invalid details"});
     }
 
     try{
             const newReading = new VtrackReading(req.body);
             await newReading.save();
-            res.status(200).json({status:200, message:"success"});
+            res.status(201).json({status:201, message:"success"});
     }
     catch(err){
         console.log(err);
@@ -47,7 +47,7 @@ router.delete('/api/v1/vtrack/del/:email/:name', verify, async (req,res) =>{
     try{
         const readingExist = await VtrackReading.findOne({name:Name,email:Email});
         if(!readingExist){
-             return res.status(400).json({status:400, error: "invalid detail"});
+             return res.status(406).json({status:406, error: "invalid detail"});
          }
          else{
              await VtrackReading.deleteOne({name:Name,email:Email});
