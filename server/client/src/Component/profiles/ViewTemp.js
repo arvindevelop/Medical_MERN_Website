@@ -1,7 +1,42 @@
 import React from 'react';
 import '../style.css';
 
-const ViewTemp = () => {
+const ViewTemp = ({label,value}) => {
+
+
+        const obj = {};
+        const obj1 = {};
+        if(label !== undefined && value !== undefined){
+            label.forEach((element, index) => {
+            obj[element] = value[index];
+            obj1[element] = (value[index] * (9/5)) + 32;
+            });
+        }
+
+        function getReadingInCel()
+        {
+            const names = [];
+            Object.keys(obj).forEach( function(key) {
+            names.push(<div className="d-flex justify-content-between">
+                            <p style={{display:"inline-block"}}>{key}</p>
+                            <p style={{display:"inline-block"}}>{obj[key]}</p>
+                        </div>
+                       )
+            })
+            return names;
+        }
+        function getReadingInFar()
+        {
+            const names = [];
+            Object.keys(obj1).forEach( function(key) {
+            names.push(<div className="d-flex justify-content-between">
+                            <p style={{display:"inline-block"}}>{key}</p>
+                            <p style={{display:"inline-block"}}>{obj1[key]}</p>
+                        </div>
+                       )
+            })
+            return names;
+        }
 
         function getParameter(){
             var x = document.getElementById('login1');
@@ -33,23 +68,21 @@ const ViewTemp = () => {
                         <button type="button" onClick={F} className="toggle-btn1" style={{marginLeft:"-5px"}}>Farenhite</button>
                     </div>
                     <div id="login1" className="input-group-login1">
-                        <div className="d-flex justify-content-between">
-                                    <p style={{display:"inline-block"}}>12 PM</p>
-                                    <p style={{display:"inline-block"}}>37 C</p>
-                                    <p style={{display:"inline-block"}}>Normal</p>
-                        </div>
-                        <div className="d-flex justify-content-between">
+                        {obj===undefined?(<div></div>):getReadingInCel()}
+                        
+                        {/* <div className="d-flex justify-content-between">
                                     <p style={{display:"inline-block"}}>11 PM</p>
                                     <p style={{display:"inline-block"}}>37.2 C</p>
                                     <p style={{display:"inline-block"}}>Normal</p>
-                        </div>
+                        </div> */}
                     </div>
                     <div id="register1" className="input-group-register1">
-                        <div className="d-flex justify-content-between">
+                        {obj===undefined?(<div></div>):getReadingInFar()}
+                        {/* <div className="d-flex justify-content-between">
                                     <p style={{display:"inline-block"}}>12 PM</p>
                                     <p style={{display:"inline-block"}}>98.6 F</p>
                                     <p style={{display:"inline-block"}}>Normal</p>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </div>

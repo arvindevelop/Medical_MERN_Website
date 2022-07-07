@@ -13,13 +13,26 @@ const Viewprofile = () => {
 
     const {name,email} = useLocation().state;
     const [profiles, setProfiles] = useState([])
-    const [days, setDays] = useState(15)
-    // const [labels, setLabels] = useState([])
-    // const [values, setValues] = useState([])
+    // const [label,setLabel] = useState([])
+    // const [value,setValue] = useState([])
+
+    function getFullDate(newDate)
+    {
+        let date = newDate.getDate();
+        let month = newDate.getMonth() + 1;
+        let year = newDate.getFullYear();
+        let reverseFullDate = year.toString() + '-' + month.toString().padStart(2,"0") + '-' + date.toString().padStart(2,"0");
+        let currFullDate = date.toString().padStart(2,"0") + '-' + month.toString().padStart(2,"0") + '-' + year.toString();
+        return [reverseFullDate,currFullDate];
+    }
+
+    const [reverseFullDate,currFullDate] = getFullDate(new Date())
+    const [days, setDays] = useState(currFullDate);
+    const [calender,setCalender] = useState(reverseFullDate);
 
      useEffect(() => {
         const fetchData = () => {
-            axios.get(`https://remotedeviceinfo.herokuapp.com/api/v1/vtrack/all/${email}/${name}`,{ withCredentials: true })
+            axios.get(`http://localhost:5000/api/v1/vtrack/all/${email}/${name}`,{ withCredentials: true })
                 .then(response => {
                     setProfiles(response.data)
                 })
@@ -31,52 +44,37 @@ const Viewprofile = () => {
     },[email,name]);
 
     const handleInputs = (e) =>{
-        setDays(e.target.value);
-        // getLabels(e.target.value);
-        // getValues(e.target.value);
+        var val = e.target.value;
+        var [calenderDate,fullDate] = getFullDate(new Date(val));
+        setDays(fullDate);
+        setCalender(calenderDate);
     }
 
-    function getLabels(day){
+    function getLabels(){
         var len = profiles.allreading.length;
-        var totalData = len - day;
         var data = [];
-        for(let i=totalData;i<len;i++)
+        for(let i=0;i<len;i++)
         {
-            //here first check date, if date is same as user's date then add that particular data
-            data.push(new Date(profiles.allreading[i].timestamp).getDate());
+            var [,tempDate] = getFullDate(new Date(profiles.allreading[i].timestamp));
+            if(tempDate === days)
+                data.push(new Date(profiles.allreading[i].timestamp * 1000).getHours());
         }
-        //setLabels(data);
+        //setLabel(data);
         return data;
     }
     
-    function getValues(day){
+    function getValues(){
         var len = profiles.allreading.length;
-        var totalData = len - day;
         var data = [];
-        for(let i=totalData;i<len;i++)
+        for(let i=0;i<len;i++)
         {
-            data.push(profiles.allreading[i].temperature);
+            var [,tempDate] = getFullDate(new Date(profiles.allreading[i].timestamp));
+            if(tempDate === days)
+                data.push(profiles.allreading[i].temperature);
         }
-        //setValues(data);
+        //setValue(data);
         return data;
     }
-
-    const monthDay = {1:31, 2:28, 3:31, 4:30, 5:31, 6:30, 7:31, 8:31, 9:30, 10:31, 11:30, 12:31};
-    let newDate = new Date()
-    let date = newDate.getDate();
-    let month = newDate.getMonth();
-    let year = newDate.getFullYear();
-
-    let prevDate = date - days + 1;
-    let prevMonth = month;
-    if(prevDate <= 0)
-    {
-        prevMonth = month-1;
-        prevDate = monthDay[prevMonth] - (-1*prevDate) - 1;
-    }
-
-    let currFullDate = date.toString().padStart(2,"0") + '.' + month.toString().padStart(2,"0") + '.' + year.toString();
-    let prevFullDate = prevDate.toString().padStart(2,"0") + '.' + prevMonth.toString().padStart(2,"0") + '.' + year.toString();
 
     return (
         <>
@@ -91,23 +89,18 @@ const Viewprofile = () => {
                         </div>
                         <div>
                             <div className="d-flex justify-content-between" style={{padding:"1em"}}>
-                                <div style={{display:"inline-block"}}>
-                                    <select name="days" id="days" value={days} onChange={handleInputs}>
-                                            <option value="10">10 days</option>
-                                            <option value="15">15 days</option>
-                                            <option value="20">20 days</option>
-                                    </select>
-                                </div>
-                                <div style={{display:"inline-block"}}><strong><p>{prevFullDate} - {currFullDate}</p></strong></div>
+                                <div style={{display:"inline-block"}}><input type="date" id="readingDate" name="readingDate" value={calender} 
+                                min="2022-01-01" max="2022-12-31" onChange={handleInputs}/></div>
+                                <div style={{display:"inline-block"}}><strong><p>{days}</p></strong></div>
                             </div>
                             {profiles.allreading===undefined?(<div></div>):
                             <Line 
                                 data={{
-                                    labels: getLabels(days),
+                                    labels: getLabels(),
                                     datasets: [
                                         {
                                             label: 'Temperature Analysis',
-                                            data: getValues(days),
+                                            data: getValues(),
                                             backgroundColor: [
                                                 'rgba(255, 99, 132, 0.2)',
                                                 'rgba(54, 162, 235, 0.2)',
@@ -137,13 +130,13 @@ const Viewprofile = () => {
                                             beginAtZero: true,
                                             title: {
                                               display: true,
-                                              text: 'Temperature'
+                                              text: 'Temperature(\u00B0C)'
                                             }
                                         },
                                         x: {
                                             title: {
                                               display: true,
-                                              text: 'Time'
+                                              text: 'Time(24 Hrs)'
                                             }
                                         },
                                     }
@@ -152,7 +145,7 @@ const Viewprofile = () => {
                              } 
                         </div>
                         <div>
-                        <ViewTemp/>
+                        {profiles.allreading===undefined?(<div></div>):<ViewTemp label={getLabels()} value={getValues()}/>}
                         </div>
                     </div>
                 </div>
