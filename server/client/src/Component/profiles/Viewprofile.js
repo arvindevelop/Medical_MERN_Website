@@ -32,7 +32,7 @@ const Viewprofile = () => {
 
      useEffect(() => {
         const fetchData = () => {
-            axios.get(`http://localhost:5000/api/v1/vtrack/all/${email}/${name}`,{ withCredentials: true })
+            axios.get(`https://remotedeviceinfo.herokuapp.com/api/v1/vtrack/all/${email}/${name}`,{ withCredentials: true })
                 .then(response => {
                     setProfiles(response.data)
                 })
