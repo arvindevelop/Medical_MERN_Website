@@ -42,7 +42,7 @@ for(i=0;i<100;i++){
         "deviceName":"VTack",
         "deviceId":"12345678",
         "temperature":randomTemp().toFixed(1),
-        "timestamp":readingDate,
+        "timeStamp":readingDate,
         "battery":randomBattery(),
         "date":dateFormat(readingDate),
         "sync":"yes"

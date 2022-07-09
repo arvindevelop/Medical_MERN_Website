@@ -44,6 +44,7 @@ const Viewprofile = () => {
         fetchData();
     },[email,name]);
 
+    //console.log(profiles.allreading.length === 0)
     const handleInputs = (e) =>{
         var val = e.target.value;
         var [calenderDate,fullDate] = getFullDate(new Date(val));
@@ -105,7 +106,8 @@ const Viewprofile = () => {
                                 <div style={{display:"inline-block"}}><strong><p>{days}</p></strong></div>
                             </div>))
                         }
-                            {profiles.allreading===undefined?(<div></div>):(pattern?<Sleepattern profile={profiles}/>:
+                            {profiles.allreading===undefined?(<div></div>):
+                            (pattern?(profiles.allreading.length === 0?(<div></div>):<Sleepattern profile={profiles}/>):
                             <Line 
                                 data={{
                                     labels: getLabels(),

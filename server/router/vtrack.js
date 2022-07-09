@@ -50,7 +50,7 @@ router.delete('/api/v1/vtrack/del/:email/:name', verify, async (req,res) =>{
              return res.status(406).json({status:406, error: "invalid detail"});
          }
          else{
-             await VtrackReading.deleteOne({name:Name,email:Email});
+             await VtrackReading.deleteMany({name:Name,email:Email});
              res.status(200).json({status:200, message:"success"});
          }
      }
