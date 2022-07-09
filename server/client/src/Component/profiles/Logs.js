@@ -1,7 +1,7 @@
 import React from 'react';
 import '../style.css';
 
-const ViewTemp = ({label,value}) => {
+const Logs = ({label,value}) => {
 
 
         const obj = {};
@@ -90,4 +90,4 @@ const ViewTemp = ({label,value}) => {
     )
 }
 
-export default ViewTemp;
+export default Logs;

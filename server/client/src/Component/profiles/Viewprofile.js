@@ -1,20 +1,22 @@
 import React,{useState,useEffect} from 'react';
 import { useLocation} from 'react-router-dom';
 import axios from 'axios';
+import { NavLink } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.js';
 import Sidebar from '../Sidebar';
 import { Line} from 'react-chartjs-2';
 import Chart from 'chart.js/auto';
-import ViewTemp from './ViewTemp';
+import Logs from './Logs';
+import Sleepattern from './Sleepattern';
 
 
 const Viewprofile = () => {
 
     const {name,email} = useLocation().state;
     const [profiles, setProfiles] = useState([])
-    // const [label,setLabel] = useState([])
-    // const [value,setValue] = useState([])
+    const [log,setLog] = useState(true)
+    const [pattern,setPattern] = useState(false)
 
     function getFullDate(newDate)
     {
@@ -32,7 +34,7 @@ const Viewprofile = () => {
 
      useEffect(() => {
         const fetchData = () => {
-            axios.get(`https://remotedeviceinfo.herokuapp.com/api/v1/vtrack/all/${email}/${name}`,{ withCredentials: true })
+            axios.get(`http://localhost:5000/api/v1/vtrack/all/${email}/${name}`,{ withCredentials: true })
                 .then(response => {
                     setProfiles(response.data)
                 })
@@ -48,6 +50,16 @@ const Viewprofile = () => {
         var [calenderDate,fullDate] = getFullDate(new Date(val));
         setDays(fullDate);
         setCalender(calenderDate);
+    }
+
+    const handleLog = () =>{
+        setPattern(false);
+        setLog(true);
+    }
+
+    const handleSleepattern = () => {
+        setLog(false);
+        setPattern(true);
     }
 
     function getLabels(){
@@ -83,17 +95,18 @@ const Viewprofile = () => {
                     <Sidebar />
                     <div className="col py-3">
                         <div className="d-flex gap-2 col-5">
-                            <button type="button" class="btn btn-primary">Charts & Logs</button>
-                            <button type="button" class="btn btn-primary">Sleep Pattern</button>
+                        <button type="button" class="btn btn-primary" onClick={handleLog}>Charts & Logs</button>
+                        <button type="button" class="btn btn-primary" onClick={handleSleepattern}>Sleep Pattern</button>
                             <button type="button" class="btn btn-primary">Therapy & Suggestions</button>
                         </div>
                         <div>
-                            <div className="d-flex justify-content-between" style={{padding:"1em"}}>
+                        {profiles.allreading===undefined?(<div></div>):(pattern?(<div></div>):(<div className="d-flex justify-content-between" style={{padding:"1em"}}>
                                 <div style={{display:"inline-block"}}><input type="date" id="readingDate" name="readingDate" value={calender} 
                                 min="2022-01-01" max="2022-12-31" onChange={handleInputs}/></div>
                                 <div style={{display:"inline-block"}}><strong><p>{days}</p></strong></div>
-                            </div>
-                            {profiles.allreading===undefined?(<div></div>):
+                            </div>))
+                        }
+                            {profiles.allreading===undefined?(<div></div>):(pattern?<Sleepattern profile={profiles}/>:
                             <Line 
                                 data={{
                                     labels: getLabels(),
@@ -141,11 +154,11 @@ const Viewprofile = () => {
                                         },
                                     }
                                 }}
-                            />
+                            />)
                              } 
                         </div>
                         <div>
-                        {profiles.allreading===undefined?(<div></div>):<ViewTemp label={getLabels()} value={getValues()}/>}
+                        {profiles.allreading===undefined?(<div></div>):(log?<Logs label={getLabels()} value={getValues()}/>:(<div></div>))}
                         </div>
                     </div>
                 </div>
