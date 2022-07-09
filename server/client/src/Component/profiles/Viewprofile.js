@@ -1,7 +1,6 @@
 import React,{useState,useEffect} from 'react';
 import { useLocation} from 'react-router-dom';
 import axios from 'axios';
-import { NavLink } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.js';
 import Sidebar from '../Sidebar';
