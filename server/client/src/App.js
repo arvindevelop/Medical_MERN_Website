@@ -1,14 +1,17 @@
 import React from 'react';
 import Cookies from 'js-cookie';
 import {Routes, Route} from 'react-router-dom';
+
 import Login from './Component/Login';
-import Dashboard from './Component/Dashboard';
 import Forgetpassword from './Component/Forgetpassword';
-import Sidebar from './Component/Sidebar';
+
+import Dashboard from './Component/profiles/Dashboard';
+import Sidebar from './Component/profiles/Sidebar';
 import Profilelist from './Component/profiles/Profilelist';
 import Addprofile from './Component/profiles/Addprofile';
 import Updateprofile from './Component/profiles/Updateprofile';
 import Viewprofile from './Component/profiles/Viewprofile';
+
 import Rooms from './Component/hospital/Rooms';
 import Available from './Component/hospital/Available';
 import DeviceList from './Component/hospital/DeviceList';
@@ -19,7 +22,7 @@ import DeviceList from './Component/hospital/DeviceList';
   return (
     <>
         <Routes>
-          <Route exact path="/" element={token ? <Rooms /> : <Login />}/>
+          <Route exact path="/" element={token ? <Dashboard /> : <Login />}/>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/Forgetpassword" element={<Forgetpassword />} />
           <Route path="/Sidebar" element={<Sidebar />} />

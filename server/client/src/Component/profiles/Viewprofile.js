@@ -3,7 +3,7 @@ import { useLocation} from 'react-router-dom';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.js';
-import Sidebar from '../Sidebar';
+import Sidebar from './Sidebar';
 import { Line} from 'react-chartjs-2';
 import Chart from 'chart.js/auto';
 import Logs from './Logs';

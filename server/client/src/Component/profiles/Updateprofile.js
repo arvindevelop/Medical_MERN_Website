@@ -2,7 +2,7 @@ import React,{useState} from 'react';
 import { useLocation , useNavigate} from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.js';
-import Sidebar from '../Sidebar';
+import Sidebar from './Sidebar';
 
 const Updateprofile = () => {
 

@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.js';
-import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 
 const Card = ({profile}) => {
