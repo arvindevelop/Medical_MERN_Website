@@ -6,8 +6,8 @@ const bcrypt = require('bcryptjs');
 
 /*--------------------------------------------------under development OAuth---------------------------------------------------------------*/
 
-const passport = require('passport');
-const CLIENT_URL = "http://localhost:5000/";  //make it 3000 for client, right now it is ok, only for server
+// const passport = require('passport');
+// const CLIENT_URL = "http://localhost:3000/dashboard";  //make it 3000 for client, right now it is ok, only for server
 
 /*--------------------------------------------------under development end-------------------------------------------------------------*/
 
@@ -150,27 +150,27 @@ router.patch('/api/v1/auth/update/:email', verify, async (req,res) =>{
 
 /*-----------------------------------------------------------------under development-------------------------------------------------------*/
 
-router.get("/login/failed", (req, res) => {
-    res.status(401).json({
-      success: false,
-      message: "failure",
-    });
-  });
+// router.get("/login/failed", (req, res) => {
+//     res.status(401).json({
+//       success: false,
+//       message: "failure",
+//     });
+//   });
 
-router.get("/logout", (req, res) => {
-    req.logout();
-    res.redirect(CLIENT_URL);
-  });
+// router.get("/logout", (req, res) => {
+//     req.logout();
+//     res.redirect(CLIENT_URL);
+//   });
   
-router.get("/auth/google", passport.authenticate("google", { scope: ["profile","email"] }));
+// router.get("/auth/google", passport.authenticate("google", { scope: ["profile","email"] }));
   
-router.get(
-    "/auth/google/callback",
-    passport.authenticate("google", {
-      successRedirect: CLIENT_URL,
-      failureRedirect: "/login/failed",
-    })
-);
+// router.get(
+//     "/auth/google/callback",
+//     passport.authenticate("google", {
+//       successRedirect: CLIENT_URL,
+//       failureRedirect: "/login/failed",
+//     })
+// );
   
 //   router.get("/auth/facebook", passport.authenticate("facebook", { scope: ["profile","email"] }));
   

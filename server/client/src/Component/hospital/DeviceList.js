@@ -1,5 +1,4 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.js';
 import Sidebar from './Sidebar';
@@ -27,21 +26,21 @@ const DeviceList = () => {
                             </thead>
                             <tbody>
                                 <tr>
-                                <th scope="row">1</th>
+                                <th scope="row"><img href="#" alt="img"></img> & name</th>
                                 <td>Mark</td>
                                 <td>Otto</td>
                                 <td>@mdo</td>
                                 <td>11-07-2022</td>
                                 </tr>
                                 <tr>
-                                <th scope="row">2</th>
+                                <th scope="row"><img href="#" alt="img"></img> & name</th>
                                 <td>Jacob</td>
                                 <td>Thornton</td>
                                 <td>@fat</td>
                                 <td>11-07-2022</td>
                                 </tr>
                                 <tr>
-                                <th scope="row">3</th>
+                                <th scope="row"><img href="#" alt="img"></img> & name</th>
                                 <td colspan="2">Larry the Bird</td>
                                 <td>@twitter</td>
                                 <td>11-07-2022</td>

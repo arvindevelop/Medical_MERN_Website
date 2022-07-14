@@ -24,7 +24,7 @@ const userSchema = new mongoose.Schema({
     },
     password:{
         type: String,
-        required: true
+        //required: true
     },
     role:{
         type: String,
@@ -38,21 +38,23 @@ const userSchema = new mongoose.Schema({
         type : Date,
         default: Date.now
     },
-    shared: [{
-        type: String
-    }],
+    // shared: [{
+    //     type: String
+    // }],
     sync:{
         type: String,
         default: 'yes'
     },
-    tokens:[
-        {
-            token:{
+    tokens:{
+    //[
+        //{
+            //token:{
                 type: String,
                 required: true
-            }
-        }
-    ]
+           // }
+        //}
+    //]
+    }
 })
 
 //Token generation
@@ -60,7 +62,8 @@ userSchema.methods.generateAuthToken = async function(){
 
     try {
         const token = jwt.sign({_id:this._id.toString()},SECRET_KEY);
-        this.tokens = this.tokens.concat({token:token});
+        //this.tokens = this.tokens.concat({token:token});
+        this.tokens = token;
         await this.save();
         return token;
     }

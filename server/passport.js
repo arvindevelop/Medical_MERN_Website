@@ -21,22 +21,32 @@ passport.use(
     async (accessToken, refreshToken, profile, done) => {
       console.log("authenticate");//st-1 and st-3
       console.log(profile);
+      console.log(accessToken);
         const userExist = await User.findOne({email:profile.emails[0].value});
+        console.log(userExist.role)
         if(!userExist){
 
           // const token = await userExist.generateAuthToken();
           // res.cookie("jwt",token);
+          
+          //const token = await userExist.generateAuthToken(accessToken);
+          // res.cookie("access-token",accessToken,{ 
+          //           expires: new Date(Date.now() + (3600 * 1000 * 24 * 365 * 1)),
+          // });
 
           const user = new User({
-            username: profile.displayName,
-            email: profile.emails[0].value, 
-            // password: token
+            userName: profile.displayName,
+            email: profile.emails[0].value,
+            tokens: accessToken
           });
           const userSave = await user.save();
         }
         else
         {
-          await User.findByIdAndUpdate(userExist._id,{'$set' : { 'lastLogged' : Date.now()} }, { new : true });
+          // res.cookie("access-token",refreshToken,{ 
+          //   expires: new Date(Date.now() + (3600 * 1000 * 24 * 365 * 1)),
+          // });
+          await User.findByIdAndUpdate(userExist._id,{'$set' : {'tokens': refreshToken, 'lastLogged' : Date.now()} }, { new : true });
         }
         done(null,profile);
     }

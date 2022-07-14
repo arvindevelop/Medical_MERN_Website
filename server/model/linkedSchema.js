@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 const validator = require('validator')
 
-const profileSchema = new mongoose.Schema({
+const linkedSchema = new mongoose.Schema({
     _id:{
-        type: String,
-        required: true
+        type:String,
+        required:true
     },
-    email:{
+    main_email:{
         type: String,
         required: true,
         validate(value){
@@ -15,40 +15,34 @@ const profileSchema = new mongoose.Schema({
             }
         }
     },
-    name:{
+    linked_email:{
         type: String,
         required: true,
-        unique: true
+        validate(value){
+            if(!validator.isEmail(value)){
+                throw new Error("Please provide correct email.");
+            }
+        }
     },
-    age: {
-        type: Number,
-        required: true
-    },
-    gender: {
+    linked_name:{
         type: String,
         required: true
     },
-    weight: {
-        type: Number,
+    profileName:{
+        type: String,
         required: true
     },
-    photo:{
-        type: String
+    date:{
+        type: String,
+        required: true
     },
     sync:{
         type:String,
         default:'yes'
-    },
-    createdOn:{
-        type : Date,
-        default: Date.now
-    },
-    // shared: [{
-    //     type: String
-    // }]
+    }
 })
 
 
-const Profile = mongoose.model('Profile',profileSchema);
+const Linked = mongoose.model('Linked',linkedSchema);
 
-module.exports = Profile;
+module.exports = Linked;
