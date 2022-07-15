@@ -8,22 +8,66 @@ const clientId = process.env.REACT_APP_CLIENT_ID;
 function GoogleButton() {
 
     const [isLogined,setIsLogined] = useState(false);
-    const [idToken,setIdToken] = useState('');
-    const [email,setEmail] = useState('');
     const navigate = useNavigate();
-    console.log(clientId);
-    const onLoginSuccess = (res) => {
-        //console.log("Login Success! current user: ",res.profileObj);
-        //console.log(res.tokenObj.id_token);
+
+    const onLoginSuccess = async (res) => {
+        
         if(res.accessToken)
         {
             setIsLogined(true);
-            setIdToken(res.tokenObj.id_token);
-            setEmail(res.profileObj.email);
+            
+            const userName = res.profileObj.name;
+            const email = res.profileObj.email;
+            const _id = res.profileObj.googleId;
+
             Cookies.set('GAuth', res.tokenObj.id_token,{ 
                 expires: new Date(Date.now() + (3600 * 1000 * 24 * 365 * 1)),
             });
-            navigate('/dashboard',{ replace: true });
+
+            try{
+
+                const user = await fetch(`http://localhost:5000/api/v1/auth/${email}`,{
+                    method:"GET",
+                    credentials: 'include', 
+                    headers:{
+                        "Content-Type" : "application/json"
+                    }
+                });
+
+                const userdata = await user.json();
+                //console.log(userdata.status);
+                if(userdata.status !== 201){
+
+                    try{
+                    const afterRegister = await fetch('http://localhost:5000/api/v1/auth/register',{
+                        method:"POST",
+                        credentials: 'include', 
+                        headers:{
+                            "Content-Type" : "application/json"
+                        },
+                        body:JSON.stringify({
+                            _id,userName,email
+                        })
+                    });
+
+                    const registerdata = await afterRegister.json();
+                    //console.log(registerdata);
+                    if(registerdata.message === "success"){
+                        navigate('/dashboard',{ replace: true });
+                    }
+                    }catch(err)
+                    {
+                        console.log(`register data error: ${err}`);
+                    }
+                }
+                else if(userdata.status === 201){
+                    navigate('/dashboard',{ replace: true });
+                }
+            } 
+            catch(err)
+            {
+                console.log(err);
+            }
         }
     }
 
@@ -34,7 +78,7 @@ function GoogleButton() {
     const onLogoutSuccess = (res) => {
         console.log("Logout Success!");
         setIsLogined(false);
-        setIdToken('');
+        // setIdToken('');
     }
 
     const onLogoutFailure = (res) => {

@@ -32,16 +32,16 @@ const profileSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
+    createdOn:{
+        type : Date,
+        default: Date.now
+    },
     photo:{
         type: String
     },
     sync:{
         type:String,
         default:'yes'
-    },
-    createdOn:{
-        type : Date,
-        default: Date.now
     },
     // shared: [{
     //     type: String

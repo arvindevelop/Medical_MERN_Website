@@ -26,13 +26,13 @@ router.post('/api/v1/vtrack/', verify, async (req,res) =>{
     }
 })
 
-router.get('/api/v1/vtrack/all/:email/:name', verify, async (req,res) =>{
+router.get('/api/v1/vtrack/:name/:deviceId', verify, async (req,res) =>{
 
     const Name = req.params.name;
-    const Email = req.params.email;
+    const DeviceId = req.params.deviceId;
     try {
-        const allReading = await VtrackReading.find({name:Name,email:Email});
-        res.status(200).json({status:200, message:"success", allreading:allReading});
+        const allReading = await VtrackReading.find({name:Name,deviceId:DeviceId});
+        res.status(201).json({status:201, message:"success", allreading:allReading});
     } 
     catch (err) {
         console.log(err);
@@ -40,18 +40,18 @@ router.get('/api/v1/vtrack/all/:email/:name', verify, async (req,res) =>{
     }    
 })
 
-router.delete('/api/v1/vtrack/del/:email/:name', verify, async (req,res) =>{
+router.delete('/api/v1/vtrack/:name/:deviceId', verify, async (req,res) =>{
 
     const Name = req.params.name;
-    const Email = req.params.email;
+    const DeviceId = req.params.deviceId;
     try{
-        const readingExist = await VtrackReading.findOne({name:Name,email:Email});
+        const readingExist = await VtrackReading.findOne({name:Name,deviceId:DeviceId});
         if(!readingExist){
              return res.status(406).json({status:406, error: "invalid detail"});
          }
          else{
-             await VtrackReading.deleteMany({name:Name,email:Email});
-             res.status(200).json({status:200, message:"success"});
+             await VtrackReading.deleteMany({name:Name,deviceId:DeviceId});
+             res.status(201).json({status:201, message:"success"});
          }
      }
      catch(err){
@@ -60,12 +60,13 @@ router.delete('/api/v1/vtrack/del/:email/:name', verify, async (req,res) =>{
      }
 })
 
-router.delete('/api/v1/vtrack/del/:start/:end', verify, async (req,res) =>{
+router.delete('/api/v1/vtrack/:start/:end', verify, async (req,res) =>{
 
     const startDate = req.params.start;
     const endDate = req.params.end;
     try{
-       
+        await VtrackReading.deleteMany({});
+        res.status(201).json({status:201, message:"success"});
      }
      catch(err){
          console.log(err);

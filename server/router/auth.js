@@ -56,13 +56,13 @@ router.post('/api/v1/auth/login',async (req,res) => {
 
 router.post('/api/v1/auth/register', async (req,res) =>{
 
-    const {userName,email,password} = req.body;
+    const {_id,userName,email} = req.body;
 
-    if(!userName || !email || !password){
+    if(!_id || !userName || !email){
         return res.status(406).json({status:406, error: "invalid details"});
     }
 
-    if(password.length < 8){
+    if(req.body.hasOwnProperty('password') && password.length < 8){
         return res.status(406).json({status:406, error: "Password must be at least 8 chracters"});
     }
     try{
@@ -81,8 +81,8 @@ router.post('/api/v1/auth/register', async (req,res) =>{
                 expires: new Date(Date.now() + (3600 * 1000 * 24 * 365 * 1)),
             });
 
-            const savedUser = await user.save();
-            res.status(201).json({staus:201, message:"success", userData:savedUser});
+            await user.save();
+            res.status(201).json({staus:201, message:"success"});
         }
     }
     catch(err){
@@ -91,12 +91,11 @@ router.post('/api/v1/auth/register', async (req,res) =>{
     }
 })
 
-//First it authorize the user then do another operation
-router.get('/api/v1/auth/all', verify, async (req,res) =>{
+router.get('/api/v1/auth/', async (req,res) =>{
 
     try {
         const allUser = await User.find({});
-        res.status(200).json({status:200, message:"success", allUser:allUser});
+        res.status(201).json({status:201, message:"success", allUser:allUser});
     } 
     catch (err) {
         console.log(err);
@@ -104,7 +103,26 @@ router.get('/api/v1/auth/all', verify, async (req,res) =>{
     }    
 })
 
-router.delete('/api/v1/auth/del/:email', verify, async (req,res) =>{
+router.get('/api/v1/auth/:email', verify, async (req,res) =>{
+
+    const userEmail = req.params.email;
+    try{
+        const userExist = await User.findOne({email:userEmail});
+ 
+        if(!userExist){
+             return res.status(406).json({status:406, error: "invalid detail"});
+         }
+         else{
+             res.status(201).json({status:201, message:"success", userData:userExist});
+         }
+     }
+     catch(err){
+         console.log(err);
+         res.status(500).json({status:500, error:"server error"});
+     }
+})
+
+router.delete('/api/v1/auth/:email', verify, async (req,res) =>{
 
     const userEmail = req.params.email;
     try{
@@ -115,7 +133,7 @@ router.delete('/api/v1/auth/del/:email', verify, async (req,res) =>{
          }
          else{
              await User.deleteOne({email:userEmail});
-             res.status(200).json({status:200, message:"success"});
+             res.status(201).json({status:201, message:"success"});
          }
      }
      catch(err){
@@ -124,11 +142,23 @@ router.delete('/api/v1/auth/del/:email', verify, async (req,res) =>{
      }
 })
 
-router.patch('/api/v1/auth/update/:email', verify, async (req,res) =>{
+router.delete('/api/v1/auth/', verify, async (req,res) =>{
+
+    
+    try{
+        
+        
+     }
+     catch(err){
+         console.log(err);
+         res.status(500).json({status:500, error:"server error"});
+     }
+})
+
+router.put('/api/v1/auth/:email', verify, async (req,res) =>{
 
     const userEmail = req.params.email;
-    var {userName, password} = req.body;
-    if(password.length < 8){
+    if(req.body.hasOwnProperty('password') && password.length < 8){
         return res.status(406).json({status:406, error: "Password must be at least 8 chracters"});
     }
     try{
@@ -138,8 +168,8 @@ router.patch('/api/v1/auth/update/:email', verify, async (req,res) =>{
          }
          else{
             password = bcrypt.hashSync(password, 12);
-            await User.updateOne({email:userEmail},{$set : { 'username' : userName, 'password' : password, 'lastLogged' : Date.now()}});
-            res.status(200).json({status:200, message:"success"});
+            await User.updateOne({email:userEmail},{$set : req.body});
+            res.status(201).json({status:201, message:"success"});
          }
      }
      catch(err){

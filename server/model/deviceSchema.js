@@ -32,10 +32,6 @@ const deviceSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    sync:{
-        type:String,
-        default:'yes'
-    },
     addedOn:{
         type : Date,
         default: Date.now
@@ -43,6 +39,10 @@ const deviceSchema = new mongoose.Schema({
     lastUpdate:{
         type : Date,
         default: Date.now
+    },
+    sync:{
+        type:String,
+        default:'yes'
     }
 })
 

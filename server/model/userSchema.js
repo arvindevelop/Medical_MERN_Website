@@ -8,9 +8,10 @@ dotenv.config({path:'./config.env'});
 const SECRET_KEY = process.env.SECRET_KEY;
 
 const userSchema = new mongoose.Schema({
-    userName:{
+    _id:{
         type: String,
-        required: true
+        required: true,
+        unique: true,
     },
     email:{
         type: String,
@@ -21,6 +22,10 @@ const userSchema = new mongoose.Schema({
                 throw new Error("Please provide your workspace email.");
             }
         }
+    },
+    userName:{
+        type: String,
+        required: true
     },
     password:{
         type: String,

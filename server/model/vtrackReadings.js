@@ -31,12 +31,12 @@ const vtrackReadings = new mongoose.Schema({
         type: String,
         required: true
     },
-    battery:{
-        type: String
-    },
     timeStamp:{
         type: Number,
         required:true
+    },
+    battery:{
+        type: String
     },
     date:{
         type: String,
