@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const validator = require('validator')
-dotenv.config({path:'./config.env'});
+dotenv.config({path:'./config/details.env'});
 
 const SECRET_KEY = process.env.SECRET_KEY;
 
@@ -16,7 +16,7 @@ const userSchema = new mongoose.Schema({
     email:{
         type: String,
         required: true,
-        unique: true,
+        //unique: true,
         validate(value){
             if(!validator.isEmail(value)){
                 throw new Error("Please provide your workspace email.");
@@ -25,7 +25,7 @@ const userSchema = new mongoose.Schema({
     },
     userName:{
         type: String,
-        required: true
+        //required: true
     },
     password:{
         type: String,

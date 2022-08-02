@@ -2,12 +2,13 @@ const dotenv = require('dotenv');
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const app = express();
-
+dotenv.config({path:'./config/details.env'});
+require('./config/dbConn');
 /*-------------------------------------------------------------under development-------------------------------------------------------------*/
 const session = require('express-session');
 const cors = require('cors');
-const passportSetup = require('./passport');
-const passport = require('passport');
+// const passportSetup = require('./passport');
+// const passport = require('passport');
 
 app.use(session({ 
     secret: process.env.SECRET_KEY,
@@ -16,8 +17,8 @@ app.use(session({
     cookie: { secure: true }  // Put false if not https
 })); 
 
-app.use(passport.initialize());
-app.use(passport.session());
+// app.use(passport.initialize());
+// app.use(passport.session());
 
 app.use(
     cors({
@@ -27,15 +28,12 @@ app.use(
     })
 );
 /*---------------------------------------------------------------under development end---------------------------------------------------------*/
-
-dotenv.config({path:'./config.env'});
-require('./db/conn');
 app.use(express.json());
 app.use(cookieParser());
-app.use(require('./router/auth'));
-app.use(require('./router/profile'));
-app.use(require('./router/device'));
-app.use(require('./router/vtrack'));
+app.use(require('./routes/auth'));
+app.use(require('./routes/profile'));
+app.use(require('./routes/device'));
+app.use(require('./routes/vtrack'));
 // app.use(require('./middleware/verify'));
 
 const PORT = process.env.PORT || 5000;

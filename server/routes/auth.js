@@ -11,9 +11,10 @@ const bcrypt = require('bcryptjs');
 
 /*--------------------------------------------------under development end-------------------------------------------------------------*/
 
-const User = require('../model/userSchema');
-dotenv.config({path:'../config.env'});
+const User = require('../models/userSchema');
+dotenv.config({path:'../config/details.env'});
 const verify = require('../middleware/verify');
+const verifyRole = require('../middleware/verifyRole');
 
 
 router.post('/api/v1/auth/login',async (req,res) => {
@@ -21,7 +22,7 @@ router.post('/api/v1/auth/login',async (req,res) => {
         const {email,password} = req.body;
 
         if(!email || !password){
-            return res.status(406).json({status:406, error:"invalid details"});
+            return res.status(400).json({status:400, error:"client error"});
         }
 
         const userLogin = await User.findOne({email:email});
@@ -31,7 +32,7 @@ router.post('/api/v1/auth/login',async (req,res) => {
            // console.log(isMatch)
 
             if(!isMatch){
-                res.status(406).json({status:406, error:"invalid details"});
+                res.status(406).json({status:406, error:"Invalid email or password"});
             }
             else{
                 //token generation
@@ -45,7 +46,7 @@ router.post('/api/v1/auth/login',async (req,res) => {
             }
         }
         else{
-            res.status(406).json({status:406, error:"invalid details"});
+            res.status(406).json({status:406, error:"Invalid email or password"});
         }
     }
     catch(err){
@@ -56,21 +57,21 @@ router.post('/api/v1/auth/login',async (req,res) => {
 
 router.post('/api/v1/auth/register', async (req,res) =>{
 
-    const {_id,userName,email} = req.body;
+    const {_id,email} = req.body;
 
-    if(!_id || !userName || !email){
-        return res.status(406).json({status:406, error: "invalid details"});
+    if(!_id || !email){
+        return res.status(400).json({status:400, error: "client error"});
     }
 
-    if(req.body.hasOwnProperty('password') && password.length < 8){
-        return res.status(406).json({status:406, error: "Password must be at least 8 chracters"});
+    if(req.body.hasOwnProperty('password') && req.body.password.length < 8){
+        return res.status(400).json({status:400, error: "Password must be at least 8 chracters"});
     }
     try{
 
-       const userExist = await User.findOne({email:email});
+       const userExist = await User.findOne({_id:_id});
 
        if(userExist){
-            return res.status(406).json({status:406, error: "Email already exist"});
+            return res.status(406).json({status:406, error: "User exist"});
         }
         else{
             const user = new User(req.body);
@@ -91,11 +92,11 @@ router.post('/api/v1/auth/register', async (req,res) =>{
     }
 })
 
-router.get('/api/v1/auth/', async (req,res) =>{
+router.get('/api/v1/auth/', verifyRole, async (req,res) =>{
 
     try {
         const allUser = await User.find({});
-        res.status(201).json({status:201, message:"success", allUser:allUser});
+        res.status(200).json({status:200, message:"success", allUser:allUser});
     } 
     catch (err) {
         console.log(err);
@@ -103,17 +104,21 @@ router.get('/api/v1/auth/', async (req,res) =>{
     }    
 })
 
-router.get('/api/v1/auth/:email', verify, async (req,res) =>{
+router.get('/api/v1/auth/:email', verifyRole, async (req,res) =>{
 
     const userEmail = req.params.email;
+    if(!userEmail)
+    {
+        return res.status(400).json({status:400, error: "client error"});
+    }
     try{
         const userExist = await User.findOne({email:userEmail});
  
         if(!userExist){
-             return res.status(406).json({status:406, error: "invalid detail"});
+             return res.status(406).json({status:406, error: "Does not exist"});
          }
          else{
-             res.status(201).json({status:201, message:"success", userData:userExist});
+             res.status(200).json({status:200, message:"success", userData:userExist});
          }
      }
      catch(err){
@@ -122,18 +127,18 @@ router.get('/api/v1/auth/:email', verify, async (req,res) =>{
      }
 })
 
-router.delete('/api/v1/auth/:email', verify, async (req,res) =>{
+router.delete('/api/v1/auth/:email', verifyRole, async (req,res) =>{
 
     const userEmail = req.params.email;
     try{
         const userExist = await User.findOne({email:userEmail});
  
         if(!userExist){
-             return res.status(406).json({status:406, error: "invalid detail"});
+             return res.status(406).json({status:406, error: "Does not exist"});
          }
          else{
              await User.deleteOne({email:userEmail});
-             res.status(201).json({status:201, message:"success"});
+             res.status(200).json({status:200, message:"success"});
          }
      }
      catch(err){
@@ -142,34 +147,25 @@ router.delete('/api/v1/auth/:email', verify, async (req,res) =>{
      }
 })
 
-router.delete('/api/v1/auth/', verify, async (req,res) =>{
+router.patch('/api/v1/auth/', verify, async (req,res) =>{
 
-    
-    try{
-        
-        
-     }
-     catch(err){
-         console.log(err);
-         res.status(500).json({status:500, error:"server error"});
-     }
-})
+    const token = req.cookies.jwt;
+    const verifyUser = jwt.verify(token, process.env.SECRET_KEY);
+    const userExist = await User.findOne({_id:verifyUser._id});
+    const userEmail = userExist.email;
 
-router.put('/api/v1/auth/:email', verify, async (req,res) =>{
-
-    const userEmail = req.params.email;
-    if(req.body.hasOwnProperty('password') && password.length < 8){
-        return res.status(406).json({status:406, error: "Password must be at least 8 chracters"});
+    if(req.body.hasOwnProperty('password') && req.body.password.length < 8){
+        return res.status(400).json({status:400, error: "Password must be at least 8 chracters"});
     }
     try{
         const userExist = await User.findOne({email:userEmail});
         if(!userExist){
-             return res.status(406).json({status:406, error: "invalid detail"});
+             return res.status(406).json({status:406, error: "Does not exist"});
          }
          else{
-            password = bcrypt.hashSync(password, 12);
-            await User.updateOne({email:userEmail},{$set : req.body});
-            res.status(201).json({status:201, message:"success"});
+            const password = bcrypt.hashSync(req.body.password, 12);
+            await User.updateOne({email:userEmail},{$set : {'password':password, 'lastLogged' : Date.now()}});
+            res.status(200).json({status:200, message:"success"});
          }
      }
      catch(err){

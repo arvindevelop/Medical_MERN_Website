@@ -22,7 +22,7 @@ const Addprofile = () => {
     
         const {id, email, name, age, gender, weight} = profile;
     
-        const res = await fetch('https://remotedeviceinfo.herokuapp.com/api/v1/profile/new',{
+        const res = await fetch('https://remotedeviceinfo.herokuapp.com/api/v1/profile/',{
           method:"POST",
           credentials: 'include',
           headers:{

@@ -4,7 +4,8 @@ const validator = require('validator');
 const vtrackReadings = new mongoose.Schema({
     _id:{
         type: String,
-        required: true
+        required: true,
+        unique:true
     },
     email:{
         type: String,
@@ -15,32 +16,26 @@ const vtrackReadings = new mongoose.Schema({
             }
         }
     },
-    name:{
+    profile_id:{
         type: String,
-        required: true
+        required:true
     },
-    deviceName: {
-        type: String,
-        required: true
-    },
-    deviceId: {
+    deviceID: {
         type: String,
         required: true
     },
     temperature: {
-        type: String,
+        //type: String,
+        type: Number,
         required: true
     },
-    timeStamp:{
+    time:{
         type: Number,
         required:true
     },
     battery:{
-        type: String
-    },
-    date:{
-        type: String,
-        required: true
+        //type:String,
+        type: Number
     },
     sync:{
         type:String,

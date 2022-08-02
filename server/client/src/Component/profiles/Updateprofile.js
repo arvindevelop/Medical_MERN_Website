@@ -7,9 +7,9 @@ import Sidebar from './Sidebar';
 const Updateprofile = () => {
 
     const navigate = useNavigate();
-    const {name,age,gender,weight} = useLocation().state;
+    const {_id,name,email,age,gender,weight} = useLocation().state;
     const profileName = name;
-    const [profile, setProfile] = useState({ name:name, age:age, gender:gender, weight:weight});
+    const [profile, setProfile] = useState({ _id:_id, name:name, email:email, age:age, gender:gender, weight:weight});
 
     let nameval,value;
     const handleInputs = (e) =>{
@@ -24,14 +24,14 @@ const Updateprofile = () => {
     
         const {name, age, gender, weight} = profile;
     
-        const res = await fetch(`https://remotedeviceinfo.herokuapp.com/api/v1/profile/update/${profileName}`,{
-          method:"PATCH",
+        const res = await fetch(`http://localhost:5000/api/v1/profile/${profileName}`,{
+          method:"PUT",
           credentials: 'include',
           headers:{
             "Content-Type" : "application/json"
           },
           body:JSON.stringify({
-            name, age, gender, weight
+            _id, name, email, age, gender, weight
           })
         });
 
@@ -65,6 +65,12 @@ const Updateprofile = () => {
                                             <label className="form-label">Name</label>
                                             <input type="text" name="name" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
                                             value={profile.name}
+                                            onChange={handleInputs}/>
+                                        </div>
+                                        <div className="mb-3">
+                                            <label className="form-label">Email</label>
+                                            <input type="email" name="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                                            value={profile.email}
                                             onChange={handleInputs}/>
                                         </div>
                                         <div className="mb-3">

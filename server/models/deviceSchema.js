@@ -1,10 +1,11 @@
 const mongoose = require('mongoose');
 const validator = require('validator')
 
-const profileSchema = new mongoose.Schema({
+const deviceSchema = new mongoose.Schema({
     _id:{
-        type: String,
-        required: true
+        type:String,
+        required:true,
+        unique:true
     },
     email:{
         type: String,
@@ -15,40 +16,36 @@ const profileSchema = new mongoose.Schema({
             }
         }
     },
-    name:{
+    deviceName:{
+        type: String,
+        required: true
+    },
+    deviceType: {
+        type: String,
+        required: true
+    },
+    deviceId: {
         type: String,
         required: true,
-        unique: true
+        //unique: true
     },
-    age: {
-        type: Number,
-        required: true
-    },
-    gender: {
-        type: String,
-        required: true
-    },
-    weight: {
-        type: Number,
-        required: true
-    },
-    createdOn:{
+    addedOn:{
+        //type:String
         type : Date,
         default: Date.now
     },
-    photo:{
-        type: String
+    lastUpdate:{
+        //type:String
+        type : Date,
+        default: Date.now
     },
     sync:{
         type:String,
         default:'yes'
-    },
-    // shared: [{
-    //     type: String
-    // }]
+    }
 })
 
 
-const Profile = mongoose.model('Profile',profileSchema);
+const Device = mongoose.model('Device',deviceSchema);
 
-module.exports = Profile;
+module.exports = Device;

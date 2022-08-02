@@ -12,6 +12,7 @@ import Sleepattern from './Sleepattern';
 
 const Viewprofile = () => {
 
+    //const {name,deviceId} = useLocation().state;
     const {name,email} = useLocation().state;
     const [profiles, setProfiles] = useState([])
     const [log,setLog] = useState(true)
@@ -33,7 +34,8 @@ const Viewprofile = () => {
 
      useEffect(() => {
         const fetchData = () => {
-            axios.get(`http://localhost:5000/api/v1/vtrack/all/${email}/${name}`,{ withCredentials: true })
+            axios.get(`http://localhost:5000/api/v1/vtrack/${email}/${name}`,{ withCredentials: true })
+            //axios.get(`http://localhost:5000/api/v1/vtrack/${name}/${deviceId}`,{ withCredentials: true })
                 .then(response => {
                     setProfiles(response.data)
                 })
@@ -42,7 +44,7 @@ const Viewprofile = () => {
                 })
         }
         fetchData();
-    },[email,name]);
+    },[name,email]);
 
     //console.log(profiles.allreading.length === 0)
     const handleInputs = (e) =>{

@@ -29,7 +29,8 @@ const Card = ({profile}) => {
                             </ul>
                             {/* <div className="d-flex justify-content-between" id="link-popup" style={{display:"none"}}> */}
                             <div className="d-flex justify-content-between">
-                                <Link to="/updateprofile" state={{ _id: _id,name:name,age:age,gender:gender,weight:weight }}>Update</Link>
+                                <Link to="/updateprofile" state={{ _id:_id,name:name,email:email,age:age,gender:gender,weight:weight }}>Update</Link>
+                                {/* <Link to="/viewprofile" state={{ name:name, deviceId:deviceId}}>View profile</Link> */}
                                 <Link to="/viewprofile" state={{ name:name, email:email}}>View profile</Link>
                             </div>
                         </div>

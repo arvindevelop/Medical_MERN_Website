@@ -3,17 +3,17 @@ const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 
-const Linked = require('../model/linkedSchema');
-const Profile = require('../model/profileSchema');
-dotenv.config({path:'../config.env'});
+const Linked = require('../models/linkedSchema');
+const Profile = require('../models/profileSchema');
+dotenv.config({path:'../config/details.env'});
 const verify = require('../middleware/verify');
 
 
 router.post('/api/v1/linked/', verify, async (req,res) =>{
 
-    const {_id,main_email,linked_email,linked_name,profileName,date} = req.body;
+    const {main_email,linked_email,linked_name,profileName} = req.body;
     
-    if(!_id || !main_email || !linked_email || !linked_name || !profileName || !date){
+    if(!main_email || !linked_email || !linked_name || !profileName){
         return res.status(406).json({status:406, message:'Invalid details'});
     }
 

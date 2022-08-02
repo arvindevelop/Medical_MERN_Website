@@ -10,7 +10,7 @@ const Profilelist = () => {
     const [profiles, setProfiles] = useState([])
 
     const fetchData = () => {
-        axios.get('http://localhost:5000/api/v1/profile/all',{ withCredentials: true })
+        axios.get('http://localhost:5000/api/v1/profile/',{ withCredentials: true })
             .then(response => {
                         setProfiles(response.data)
             })
