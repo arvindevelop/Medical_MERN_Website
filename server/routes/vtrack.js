@@ -30,7 +30,7 @@ router.get('/api/v1/vtrack/:profile_id/:deviceId', verify, async (req,res) =>{
     const profileId = req.params.profile_id;
     const deviceId = req.params.deviceId;
     try {
-        const allReading = await VtrackReading.find({profile_id:profileId,deviceId:deviceId});
+        const allReading = await VtrackReading.find({profile_id:profileId,deviceID:deviceId});
         res.status(201).json({status:201, message:"success", allreading:allReading});
     } 
     catch (err) {

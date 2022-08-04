@@ -20,12 +20,12 @@ router.post('/api/v1/device/', verify, async (req,res) =>{
        const deviceExist = await Device.findOne({_id:_id});
 
        if(deviceExist){
-            return res.status(400).json({status:400, message: "Client error"});
+            return res.status(406).json({status:406, message: "Device exist"});
         }
         else{
             const device = new Device(req.body);
-            const savedDevice = await device.save();
-            res.status(201).json({status:201, message:"success", deviceData:savedDevice});
+            await device.save();
+            res.status(201).json({status:201, message:"success"});
         }
     }
     catch(err){
@@ -48,9 +48,9 @@ router.get('/api/v1/device/', verify, async (req,res) =>{
 
 router.get('/api/v1/device/:id', verify, async (req,res) =>{
 
-    const _id = req.params.id;
+    const deviceId = req.params.id;
     try {
-        const singleDevice = await Device.findone({_id:__dirname});
+        const singleDevice = await Device.findOne({deviceId:deviceId});
         res.status(200).json({status:200, message:"success", singleDevice:singleDevice});
     } 
     catch (err) {
@@ -61,15 +61,15 @@ router.get('/api/v1/device/:id', verify, async (req,res) =>{
 
 router.delete('/api/v1/device/:id', verify, async (req,res) =>{
 
-    const _id = req.params.id;
+    const deviceId = req.params.id;
     try{
-        const deviceExist = await Device.findOne({_id:_id});
+        const deviceExist = await Device.findOne({deviceId:deviceId});
  
         if(!deviceExist){
              return res.status(406).json({status:406, error: "Does not exist"});
          }
          else{
-             await Device.deleteOne({deviceId:DeviceId});
+             await Device.deleteOne({deviceId:deviceId});
              res.status(200).json({status:200, message:"success"});
          }
      }
@@ -81,15 +81,14 @@ router.delete('/api/v1/device/:id', verify, async (req,res) =>{
 
 router.patch('/api/v1/device/:id', verify, async (req,res) =>{
 
-    const _id = req.params.id;
-    //var {deviceName, deviceAddress} = req.body;
+    const deviceId = req.params.id;
     try{
-        const deviceExist = await Device.findOne({_id:_id});
+        const deviceExist = await Device.findOne({deviceId:deviceId});
         if(!deviceExist){
              return res.status(406).json({status:406, error: "Does not exist"});
          }
          else{
-            await Device.updateOne({_id:_id},{$set : req.body});
+            await Device.updateOne({deviceId:deviceId},{$set : req.body});
             res.status(200).json({status:200, message:"success"});
          }
      }
