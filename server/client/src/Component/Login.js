@@ -85,7 +85,7 @@ const Login = () => {
                             <div className="mb-3 form-check">
                                 <input type="checkbox" className="form-check-input" id="exampleCheck1" />
                                 <label class="form-check-label">Remember me</label>
-                                <span><NavLink to="/Forgetpassword" className="btn btn-outline-info me-4 rounded-pill px-4">Forgot Password?</NavLink></span>
+                                <span><NavLink to="/forgotPassword" className="btn btn-outline-info me-4 rounded-pill px-4">Forgot Password?</NavLink></span>
                             </div>
                             <button type="submit" name="signin" className="btn btn-primary" onClick={PostData}>Login</button>
                         </form>

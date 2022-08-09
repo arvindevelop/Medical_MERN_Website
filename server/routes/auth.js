@@ -164,7 +164,7 @@ router.patch('/api/v1/auth/', verify, async (req,res) =>{
          }
          else{
             const password = bcrypt.hashSync(req.body.password, 12);
-            await User.updateOne({email:userEmail},{$set : req.body});
+            await User.updateOne({email:userEmail},{$set : {'password':password}});
             res.status(200).json({status:200, message:"success"});
          }
      }

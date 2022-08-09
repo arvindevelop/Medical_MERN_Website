@@ -3,7 +3,7 @@ import Cookies from 'js-cookie';
 import {Routes, Route} from 'react-router-dom';
 
 import Login from './Component/Login';
-import Forgetpassword from './Component/Forgetpassword';
+import Forgetpassword from './Component/views/forgotPassword';
 
 import Dashboard from './Component/profiles/Dashboard';
 import Sidebar from './Component/profiles/Sidebar';
@@ -28,7 +28,7 @@ import Viewprofile from './Component/profiles/Viewprofile';
         <Routes>
           <Route exact path="/" element={googleToken || token ? <Dashboard /> : <Login />}/>
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/Forgetpassword" element={<Forgetpassword />} />
+          <Route path="/forgotPassword" element={<Forgetpassword />} />
           <Route path="/Sidebar" element={<Sidebar />} />
           <Route path="/profilelist" element={<Profilelist />} />
           <Route path="/addprofile" element={<Addprofile />} />
