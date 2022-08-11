@@ -54,7 +54,7 @@ router.post('/forgotPassword',async (req,res,next) => {
      auth: {
     //    user: process.env.EMAIL_USERNAME,
     //    pass: process.env.EMAIL_PASSWORD
-    user: 'aks7631353674@gmail.com',
+    user: 'example@gmail.com',
     pass: '************'
      }
     });

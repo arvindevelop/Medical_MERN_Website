@@ -1,7 +1,7 @@
 const mqtt = require('mqtt');
 var client = mqtt.connect('mqtt://broker.hivemq.com');
 
-const Topic = 'Arvind';
+const Topic = 'vtrack';
 client.on('connect', function() {
     client.subscribe(Topic);
     console.log("Client has subscribed successfully");

@@ -14,7 +14,7 @@ const client = mqtt.connect(connectUrl, {
   reconnectPeriod: 1000,
 })
 
-const topic = '/arvind/mqtt'
+const topic = '/vtrack/mqtt'
 client.on('connect', () => {
   console.log('Connected')
   client.subscribe([topic], () => {
