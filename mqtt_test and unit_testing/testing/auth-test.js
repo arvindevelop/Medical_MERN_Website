@@ -42,14 +42,14 @@ describe('Auth unit testing', function(){
     //     expect(res.status).to.be.equal(200);
     // });    
 
-    // it('Get single user test', async function(){
-    //     let res = await chai.request('http://localhost:5000/api/v1/auth/arvi@gmail.com')
-    //     .get('/')
-    //     .set('Content-Type', 'application/json')
-    //     .set('Accept', 'application/json')
-    //  
-    //     expect(res.status).to.be.equal(200);
-    // }); 
+    it('Get single user test', async function(){
+        let res = await chai.request('http://localhost:5000/api/v1/auth/arvi@gmail.com')
+        .get('/')
+        .set('Content-Type', 'application/json')
+        .set('Accept', 'application/json')
+     
+        expect(res.status).to.be.equal(200);
+    }); 
     
     // it('Delete user test', async function(){
     //         let res = await chai.request('http://localhost:5000/api/v1/auth/arvi@gmail.com')
@@ -60,13 +60,13 @@ describe('Auth unit testing', function(){
     //         expect(res.status).to.be.equal(200);
     // }); 
 
-    it('Update user test', async function(){
-        let res = await chai.request('http://localhost:5000/api/v1/auth/arvi@gmail.com')
-        .patch('/')
-        .send({"password":"arvi1234"})
-        .set('Content-Type', 'application/json')
-        .set('Accept', 'application/json')
-        expect(res.status).to.be.equal(200);
-    }); 
+    // it('Update user test', async function(){
+    //     let res = await chai.request('http://localhost:5000/api/v1/auth/arvi@gmail.com')
+    //     .patch('/')
+    //     .send({"password":"arvi1234"})
+    //     .set('Content-Type', 'application/json')
+    //     .set('Accept', 'application/json')
+    //     expect(res.status).to.be.equal(200);
+    // }); 
 
 })
